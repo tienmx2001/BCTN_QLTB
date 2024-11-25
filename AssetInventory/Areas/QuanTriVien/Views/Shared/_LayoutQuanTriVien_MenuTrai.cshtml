@@ -1,0 +1,111 @@
+﻿<div class="leftside-menu">
+    <!-- LOGO -->
+    <a href="#" class="logo text-center logo-light">
+        <span class="logo-lg">
+            <img src="~/Content/Content_Admin/assets/images/Logo_TDMU.png" alt="" height="50">
+        </span>
+        <span class="logo-sm">
+            <img src="~/Content/Content_Admin/assets/images/Logo_TDMU.png" alt="" height="61">
+        </span>
+    </a>
+
+    <div class="h-100" id="leftside-menu-container" data-simplebar>
+        <!--- Sidemenu -->
+        <ul class="side-nav">
+            <!-- Trang tổng quan -->
+            <li class="side-nav-title side-nav-item"><hr /></li>
+            @if (Session["Admin"] != null || Session["Nhanvien"] != null || Session["TruongBan"] != null)
+            {
+                <li class="side-nav-item @ViewBag.ActiveMenu">
+                    <a href="@Url.Action("Index", "TrangChu")" class="side-nav-link">
+                        <i class="uil-home-alt"></i>
+                        <span>Trang tổng quan</span>
+                    </a>
+                </li>
+            }
+
+            <!-- Quản lý người dùng -->
+            @if (Session["Admin"] != null)
+            {
+                <li class="side-nav-title side-nav-item"><hr /></li>
+                <li class="side-nav-item">
+                    <a href="@Url.Action("Index", "NguoiDung")" class="side-nav-link">
+                        <i class="mdi mdi-account-group-outline"></i>
+                        <span>Quản lý người dùng</span>
+                    </a>
+                </li>
+            }
+
+            <!-- Quản lý phòng -->
+            @if (Session["Admin"] != null || Session["TruongBan"] != null)
+            {
+                <li class="side-nav-item">
+                    <a href="@Url.Action("Index", "Phong")" class="side-nav-link">
+                        <i class="mdi mdi-dots-square"></i>
+                        <span>Quản lý phòng</span>
+                    </a>
+                </li>
+            }
+
+            <!-- Quản lý tài sản -->
+            @if (Session["Admin"] != null || Session["TruongBan"] != null)
+            {
+                <li class="side-nav-item">
+                    <a href="@Url.Action("Index", "TaiSan")" class="side-nav-link">
+                        <i class="mdi mdi-desktop-classic"></i>
+                        <span>Quản lý tài sản</span>
+                    </a>
+                </li>
+            }
+            
+            @if (Session["Admin"] != null || Session["TruongBan"] != null)
+            {
+                <li class="side-nav-title side-nav-item"><hr /></li>
+                <li class="side-nav-item">
+                    <a href="@Url.Action("Index", "ThanhLy")" class="side-nav-link">
+                        <i class="dripicons-suitcase"></i>
+                        <span>Thanh lý tài sản</span>
+                    </a>
+                </li>
+            }
+
+            <!-- Phân bố tài sản -->
+            @if (Session["Admin"] != null || Session["Nhanvien"] != null || Session["TruongBan"] != null)
+            {
+                <li class="side-nav-title side-nav-item"><hr /></li>
+                <li class="side-nav-item">
+                    <a href="@Url.Action("PhanBoThietBi", "TaiSan")" class="side-nav-link">
+                        <i class="dripicons-suitcase"></i>
+                        <span>Phân bố tài sản</span>
+                    </a>
+                </li>
+            }
+
+            <!-- Kiểm kê -->
+            @if (Session["Admin"] != null || Session["TruongBan"] != null)
+            {
+                <li class="side-nav-title side-nav-item"><hr /></li>
+                <li class="side-nav-item">
+                    <a href="@Url.Action("Index", "KiemKe")" class="side-nav-link">
+                        <i class="mdi mdi-book-edit-outline"></i>
+                        <span>Kiểm kê</span>
+                    </a>
+                </li>
+            }
+
+            <!-- Nhật ký hoạt động -->
+            @if (Session["Admin"] != null || Session["TruongBan"] != null)
+            {
+                <li class="side-nav-title side-nav-item"><hr /></li>
+                <li class="side-nav-item">
+                    <a href="@Url.Action("Index", "NhatKyHoatDong")" class="side-nav-link">
+                        <i class="dripicons-blog"></i>
+                        <span>Nhật ký hoạt động</span>
+                    </a>
+                </li>
+            }
+        </ul>
+        <!-- End Sidebar -->
+        <div class="clearfix"></div>
+    </div>
+</div>

@@ -1,0 +1,186 @@
+﻿@using AssetInventory.Models;
+
+@{
+    ViewBag.Title = "Thanh lý";
+    Layout = "~/Areas/QuanTriVien/Views/Shared/_LayoutQuanTriVien.cshtml";
+
+    if (Session["Admin"] == null) //Giao diện Login
+    {
+        Response.Redirect("~/QuanTriVien/TrangChu/DangNhap");
+    }
+    NguoiDung kh = (NguoiDung)Session["Admin"];
+}
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item active">
+                        <a href="javascript: void(0);">Phân bố</a>
+                    </li>
+                    <li class="breadcrumb-item ">Phân bố tài sản</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" value="@kh.MaND" id="MaND_Them_PB" />
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="header-title">Danh sách thiết bị thanh lý</h4>
+                <p class="text-muted font-14"> Thanh lý các tài sản, công cụ dụng cụ cho các phòng học, ngoài ra có thể chỉnh sửa một cách dễ dàng với những người dùng có phân quyền tương ứng... </p>
+                <ul class="nav nav-tabs nav-bordered mb-3">
+                    <li class="nav-item">
+                        <a href="#pb_view" data-bs-toggle="tab" aria-expanded="false" class="nav-link active"> Thanh lý </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#dspb_view" data-bs-toggle="tab" aria-expanded="true" class="nav-link"> Xem danh sách Thanh lý </a>
+                    </li>
+                </ul>
+
+
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="pb_view">
+
+                        <div class="row">
+
+                            <div class="col-lg-6 border">
+                                <br />
+
+                                <div class="mb-3">
+                                    <label for="TaiKhoan" class="form-label">Người dùng đang thêm: </label>
+                                    <input type="text" id="TaiKhoan" class="form-control" readonly="" value="@kh.HoVaTen">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="TenPhong" class="form-label">Chọn phòng cần thanh lý thiết bị: </label>
+                                    <!-- Chọn phòng -->
+                                    <select onchange="" id="MaPhong" name="MaPhong" class="form-control select2" data-toggle="select2"></select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="TS-CDCC" class="form-label">Chọn TS-CDCC cần thêm vào phòng: </label>
+                                    <!-- Chọn TS-CDCC -->
+                                    <select id="TaiSan" class="select2 form-control select2-multiple" data-toggle="select2" multiple="multiple" data-placeholder="Chọn TS-CDCC...">
+                                    </select>
+                                </div>
+                                <div style="text-align:center" class="mb-3">
+                                    <button type="button" id="XacNhan_Them_PhanBo" class="btn btn-success">Xác nhận thêm</button>
+                                    <button type="button" id="Huy_Them_PhanBo" class="btn btn-danger">Hủy thêm</button>
+                                </div>
+
+
+                                <br />
+                            </div>
+
+
+                            <div class="col-lg-6 border">
+                                <div class="table-responsive">
+                                    <table id="table_list_taisan_add" class="table table-bordered dt-responsive nowrap w-100">
+                                        <thead>
+                                            <tr style="text-align: center; font-size: 13px;">
+                                                <th>Mã tài sản</th>
+                                                <th>Tên tài sản</th>
+                                                <th>Số lượng cần thêm</th>
+                                                <th>Ghi chú</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="text-align: center;">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+                        <hr /><br />
+
+
+                        <div class="row">
+                            <h3><center>Thông tin tài sản có trong phòng</center></h3>
+                            <div class="col-lg-12">
+                                <div class="table-responsive">
+                                    <table id="table_info_taisanhong_phong" class="table table-bordered table-centered">
+                                        <thead>
+                                            <tr style="text-align: center;">
+                                                <th>Mã tài sản</th>
+                                                <th>Thuộc nhóm tài sản</th>
+                                                <th>Tên tài sản</th>
+                                                <th>Số lượng hỏng</th>
+                                                <th>Ghi chú</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="text-align: center;">
+                                            <!-- Dữ liệu sẽ được load vào đây bằng AJAX -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="tab-pane show" id="dspb_view">
+                            <div class="row">
+                                <div class="col-12">
+
+                                    <div class="table-responsive">
+                                        <table id="table_chitiet_phanbo" class="table dt-responsive nowrap w-100">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th style="text-align:center;">STT</th>
+                                                    <th style="text-align:center;">Tên phòng</th>
+                                                    <th style="width: 400px; text-align: center;">Tổng số lượng TS-CCDC hiện có</th>
+                                                    <th style="text-align:center;">Ngày tạo</th>
+                                                    <th style="width: 400px;text-align: center;">Hành động</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        // Gửi yêu cầu AJAX khi trang được tải
+        $.ajax({
+            url: '@Url.Action("DanhSachTaiSanCanThanhLy", "ThanhLy")',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                // Xử lý dữ liệu trả về và chèn vào bảng
+                var rows = '';
+                $.each(data, function (index, item) {
+                    rows += '<tr>';
+                    rows += '<td>' + item.MaTS + '</td>';
+                    rows += '<td>' + item.TenNhomTS + '</td>';
+                    rows += '<td>' + item.TenTS + '</td>';
+                    rows += '<td>' + item.SoLuongHong + '</td>';
+                    rows += '<td>' + item.GhiChu + '</td>';
+                    rows += '<td><button class="btn btn-info">Thanh lý</button></td>'; 
+                    rows += '</tr>';
+                });
+                console.log(data)
+                // Chèn các dòng dữ liệu vào bảng
+                $('#table_info_taisanhong_phong tbody').html(rows);
+            },
+            error: function () {
+                alert('Có lỗi khi tải dữ liệu!');
+            }
+        });
+    });
+    </script>
