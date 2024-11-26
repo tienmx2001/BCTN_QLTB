@@ -1,0 +1,198 @@
+﻿
+@{
+    ViewBag.Title = "Thống kê thiết bị";
+    Layout = "~/Areas/QuanTriVien/Views/Shared/_LayoutQuanTriVien.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item active">
+                        <a href="javascript: void(0);">Quản lý</a>
+                    </li>
+                    <li class="breadcrumb-item ">Thống kê thiết bị</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Thống kê thiết bị</h4>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="row mt-4">
+        <div class="col-12">
+            <canvas id="chartThongKe" height="100"></canvas>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <!--<div class="row mb-2">
+                    <div class="col-sm-4">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#add_new_phieukiemke" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Tạo mới phiếu kiểm kê</a>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="text-sm-end">
+                            <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog"></i></button>
+                            <button type="button" class="btn btn-light mb-2 me-1">Import</button>
+                            <button type="button" class="btn btn-light mb-2">Export</button>
+                        </div>
+                    </div>-->
+                <!-- end col-->
+                <!--</div>-->
+                <table id="table_phieukiemke" class="table table-bordered table-centered mb-0">
+                    <thead>
+                        <tr style="text-align:center">
+                            <th style="width:100px">Mã TS</th>
+                            <th>Tên tài sản</th>
+                            <th>Số lần được Phân bổ</th>
+                            <th>Số lần được Kiểm kê</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align:center">
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script>
+
+
+    $(document).ready(function () {
+
+        var Table_PKK = $('#table_phieukiemke').DataTable({
+            "ordering": false,
+            responsive: true,
+            paging: true,
+        });
+
+
+
+        LoadData(Table_PKK);
+
+
+
+});
+
+
+
+
+function LoadData(Name_DataTable) {
+    var Show_TrangThai = "";
+    Name_DataTable.clear().draw();
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("GetDataAnalyst", "ThongKe")',
+        dataType: 'json',
+        contentType: 'application/json;charset=utf-8',
+        async: false,
+        cache: false,
+        success: function (data) {
+            var items = '';
+            var labels = [];
+            var phanBoCounts = [];
+            var kiemKeCounts = [];
+
+            $.each(data.data, function (i, item) {
+                Name_DataTable.row.add([
+                    '<td><a class="text-body fw-bold">#' + item.MaTS + '</a></td>',
+                    '<h4><span class="badge bg-success text-light">' + item.TenTS + '</span></h4>',
+                    item.SoLanDuocPhanBo,
+                    item.SoLanDuocKiemKe
+                ]).draw(false);
+
+                labels.push(item.TenTS);
+                phanBoCounts.push(item.SoLanDuocPhanBo);
+                kiemKeCounts.push(item.SoLanDuocKiemKe);
+            });
+
+            renderChart(labels, phanBoCounts, kiemKeCounts);
+
+        },
+        error: function (ex) {
+            alert("Error_Load_Data");
+        }
+    });
+    return false;
+}
+
+
+    function renderChart(labels, phanBoCounts, kiemKeCounts) {
+        var ctx = document.getElementById('chartThongKe').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Số lần được Phân bổ',
+                        data: phanBoCounts,
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Số lần được Kiểm kê',
+                        data: kiemKeCounts,
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Tài sản'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Số lần'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+
+    function ThongBao(title, content) {
+        $.alert({
+            title: title,
+            theme: 'dark',
+            content: content,
+        });
+    }
+</script>

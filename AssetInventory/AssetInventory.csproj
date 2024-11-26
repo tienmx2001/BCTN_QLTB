@@ -608,6 +608,7 @@
     <Content Include="Areas\QuanTriVien\Views\_ViewStart.cshtml" />
     <Content Include="Areas\QuanTriVien\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\QuanTriVien\Views\ThanhLy\Index.cshtml" />
+    <Content Include="Areas\QuanTriVien\Views\ThongKe\Index.cshtml" />
     <None Include="Models\AI.dbml.layout">
       <DependentUpon>AI.dbml</DependentUpon>
     </None>

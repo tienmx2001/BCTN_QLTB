@@ -824,6 +824,8 @@ namespace AssetInventory.Models
 		
 		private System.Nullable<System.DateTime> _NgayTao;
 		
+		private int _MaTS;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -860,6 +862,8 @@ namespace AssetInventory.Models
     partial void OnNgayCapNhatChanged();
     partial void OnNgayTaoChanging(System.Nullable<System.DateTime> value);
     partial void OnNgayTaoChanged();
+    partial void OnMaTSChanging(int value);
+    partial void OnMaTSChanged();
     #endregion
 		
 		public ChiTietPhieuKiemKe()
@@ -1183,6 +1187,26 @@ namespace AssetInventory.Models
 					this._NgayTao = value;
 					this.SendPropertyChanged("NgayTao");
 					this.OnNgayTaoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaTS", DbType="Int NOT NULL")]
+		public int MaTS
+		{
+			get
+			{
+				return this._MaTS;
+			}
+			set
+			{
+				if ((this._MaTS != value))
+				{
+					this.OnMaTSChanging(value);
+					this.SendPropertyChanging();
+					this._MaTS = value;
+					this.SendPropertyChanged("MaTS");
+					this.OnMaTSChanged();
 				}
 			}
 		}
@@ -2227,7 +2251,7 @@ namespace AssetInventory.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenDangNhap", DbType="NVarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenDangNhap", DbType="VarChar(50)")]
 		public string TenDangNhap
 		{
 			get
@@ -2553,8 +2577,9 @@ namespace AssetInventory.Models
 		private System.DateTime _NgayCapNhat;
 		
 		private System.DateTime _NgayTao;
-
-		private int _SoLuongHong;
+		
+		private System.Nullable<int> _SoLuongHong;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -2568,8 +2593,6 @@ namespace AssetInventory.Models
     partial void OnMaPhongChanging(int value);
     partial void OnMaPhongChanged();
     partial void OnSoLuongChanging(int value);
-	partial void OnSoLuongHongChanging(int value);
-	partial void OnSoLuongHongChanged();
     partial void OnSoLuongChanged();
     partial void OnDvTinhChanging(string value);
     partial void OnDvTinhChanged();
@@ -2579,6 +2602,8 @@ namespace AssetInventory.Models
     partial void OnNgayCapNhatChanged();
     partial void OnNgayTaoChanging(System.DateTime value);
     partial void OnNgayTaoChanged();
+    partial void OnSoLuongHongChanging(System.Nullable<int> value);
+    partial void OnSoLuongHongChanged();
     #endregion
 		
 		public PhanBo()
@@ -2765,27 +2790,28 @@ namespace AssetInventory.Models
 				}
 			}
 		}
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SoLuongHong", DbType = "Int")]
-        public int SoLuongHong 
-        {
-            get
-            {
-                return this._SoLuongHong;
-            }
-            set
-            {
-                if ((this._SoLuongHong != value))
-                {
-                    this.OnSoLuongHongChanging(value);
-                    this.SendPropertyChanging();
-                    this._SoLuongHong = value;
-                    this.SendPropertyChanged("SoLuongHong");
-                    this.OnSoLuongHongChanged();
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoLuongHong", DbType="Int")]
+		public System.Nullable<int> SoLuongHong
+		{
+			get
+			{
+				return this._SoLuongHong;
+			}
+			set
+			{
+				if ((this._SoLuongHong != value))
+				{
+					this.OnSoLuongHongChanging(value);
+					this.SendPropertyChanging();
+					this._SoLuongHong = value;
+					this.SendPropertyChanged("SoLuongHong");
+					this.OnSoLuongHongChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
 		

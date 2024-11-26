@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using AssetInventory.Models;
+﻿using AssetInventory.Models;
 
 namespace AssetInventory.Areas.QuanTriVien.Controllers
 {
@@ -43,7 +37,8 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 if (check_phieukiemke.Count() <= 0)
                 {
                     return RedirectToAction("Index");
-                }else
+                }
+                else
                 {
                     var get = db.PhieuKiemKes.SingleOrDefault(c => c.MaPhieu == MaPhieu);
                     if (get.TrangThai == 0)
@@ -130,11 +125,11 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
         {
             var get_data = from s in db.PhieuKiemKes.OrderByDescending(a => a.MaPhieu)
                            join p in db.Phongs on s.MaPhong equals p.MaPhong
-                           select new { s.MaPhieu, s.MaPhong, s.GhiChu, s.TrangThai, s.NgayCapNhat, s.NgayTao, p.TenPhong};
+                           select new { s.MaPhieu, s.MaPhong, s.GhiChu, s.TrangThai, s.NgayCapNhat, s.NgayTao, p.TenPhong };
             return Json(new { data = get_data }, JsonRequestBehavior.AllowGet);
         }
 
-      
+
 
 
 
@@ -143,18 +138,19 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
         public JsonResult Insert_PhieuKiemKe(PhieuKiemKe kk)
         {
             var check_phieukiemke = from s in db.PhieuKiemKes
-                           where s.MaPhong == kk.MaPhong
-                           select s;
+                                    where s.MaPhong == kk.MaPhong
+                                    select s;
             var check_phong = from s in db.Phongs
-                           where s.MaPhong == kk.MaPhong
-                           select s;
-            var check_phanbo = from s in db.PhanBos
                               where s.MaPhong == kk.MaPhong
                               select s;
+            var check_phanbo = from s in db.PhanBos
+                               where s.MaPhong == kk.MaPhong
+                               select s;
             if (check_phong.Count() <= 0)
             {
                 return Json(new { Message = "Không có Phòng này!!!", code = -1 });
-            }else if (check_phanbo.Count() <= 0)
+            }
+            else if (check_phanbo.Count() <= 0)
             {
                 return Json(new { Message = "Phòng này hiện chưa có tài sản, nên không thể kiểm kê!!!", code = -1 });
             }
@@ -189,7 +185,8 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 {
                     return Json(new { Message = ex.Message, code = -1 });
                 }
-            }else
+            }
+            else
             {
 
                 if (check_phieukiemke.FirstOrDefault().TrangThai == 0)
@@ -217,39 +214,40 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
 
 
             }
-             
+
         }
 
 
         public bool Insert_ChiTietPhieuKiem(int MaPhieu, int MaPhong)
         {
             var select_PhanBo_By_MaPhong = from s in db.PhanBos
-                                    where s.MaPhong == MaPhong
-                                    join p in db.TaiSans on s.MaTS equals p.MaTS
-                                    join p1 in db.NhomTaiSans on p.MaNhomTS equals p1.MaNhomTS 
-                                    select new
-                                    {
-                                        p.MaNhomTS,
-                                        p1.TenNhomTS,
-                                        p.TenTS,
-                                        p.GiaTri,
-                                        s.SoLuong,
-                                        p.HangSanXuat,
-                                        p.NuocSanXuat,
-                                        p.NamSanXuat,
-                                    };
+                                           where s.MaPhong == MaPhong
+                                           join p in db.TaiSans on s.MaTS equals p.MaTS
+                                           join p1 in db.NhomTaiSans on p.MaNhomTS equals p1.MaNhomTS
+                                           select new
+                                           {
+                                               p.MaNhomTS,
+                                               p1.TenNhomTS,
+                                               p.TenTS,
+                                               p.GiaTri,
+                                               s.SoLuong,
+                                               p.HangSanXuat,
+                                               p.NuocSanXuat,
+                                               p.NamSanXuat,
+                                           };
             var check_phieukiemke = from s in db.PhieuKiemKes
                                     where s.MaPhieu == MaPhieu
                                     select s;
             var check_chitiet_phieukiemke = from s in db.ChiTietPhieuKiemKes
-                                    where s.MaPhieu == MaPhieu
-                                    select s;
+                                            where s.MaPhieu == MaPhieu
+                                            select s;
             if (check_phieukiemke.Count() >= 1)
             {
                 if (check_phieukiemke.FirstOrDefault().TrangThai != 0)
                 {
                     return true;
-                }else if (check_phieukiemke.FirstOrDefault().TrangThai == 0 && check_chitiet_phieukiemke.Count() >= 1)
+                }
+                else if (check_phieukiemke.FirstOrDefault().TrangThai == 0 && check_chitiet_phieukiemke.Count() >= 1)
                 {
                     return true;
                 }
@@ -259,6 +257,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                     {
                         ChiTietPhieuKiemKe inset_ctpkk = new ChiTietPhieuKiemKe();
                         inset_ctpkk.MaPhieu = MaPhieu;
+                        inset_ctpkk.MaTS = select_PhanBo_By_MaPhong.Skip(i).FirstOrDefault().MaTS;
                         inset_ctpkk.TenTS = select_PhanBo_By_MaPhong.Skip(i).FirstOrDefault().TenTS;
                         inset_ctpkk.TenNhomTS = select_PhanBo_By_MaPhong.Skip(i).FirstOrDefault().TenNhomTS;
                         inset_ctpkk.GiaTri = select_PhanBo_By_MaPhong.Skip(i).FirstOrDefault().GiaTri;
@@ -282,14 +281,14 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 {
                     return true;
                 }
-                
+
             }
             else
             {
                 return false;
             }
-            
-            
+
+
 
         }
 
@@ -299,7 +298,8 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
         {
             var get_data = from s in db.ChiTietPhieuKiemKes.OrderByDescending(a => a.TenNhomTS)
                            where s.MaPhieu == MaPhieu
-                           select new { 
+                           select new
+                           {
                                s.MaCTPKK,
                                s.TenNhomTS,
                                s.TenTS,
@@ -324,9 +324,9 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
         public JsonResult Update_ChiTiet_PhieuKiemKe(ChiTietPhieuKiemKe ctpkk)
         {
             var chitiet_phieukiemke = from s in db.ChiTietPhieuKiemKes
-                                    where s.MaPhieu == ctpkk.MaPhieu
-                                    where s.MaCTPKK == ctpkk.MaCTPKK
-                                    select s;
+                                      where s.MaPhieu == ctpkk.MaPhieu
+                                      where s.MaCTPKK == ctpkk.MaCTPKK
+                                      select s;
             if (ctpkk.SoLuongThucTe < 0 || ctpkk.ConTot < 0 || ctpkk.KemPC < 0 || ctpkk.MatPC < 0)
             {
                 return Json(new { Message = "Update thất bại", code = false });
@@ -352,11 +352,6 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 return Json(new { Message = "Update thành công", code = true });
 
             }
-
-
-
-
-
         }
 
         [HttpPost]
@@ -382,11 +377,6 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
             {
                 return Json(new { code = 0, msg = "Sửa hổng được, hình như có lỗi á :3" + ex.Message }, JsonRequestBehavior.AllowGet);
             }
-
-
-
-
-
         }
 
 
