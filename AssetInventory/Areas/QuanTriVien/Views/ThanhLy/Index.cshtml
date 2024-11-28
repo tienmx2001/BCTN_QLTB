@@ -4,11 +4,25 @@
     ViewBag.Title = "Thanh lý";
     Layout = "~/Areas/QuanTriVien/Views/Shared/_LayoutQuanTriVien.cshtml";
 
-    if (Session["Admin"] == null) //Giao diện Login
+    if (Session["Admin"] == null && Session["Nhanvien"] == null && Session["TruongBan"] == null)
     {
         Response.Redirect("~/QuanTriVien/TrangChu/DangNhap");
     }
-    NguoiDung kh = (NguoiDung)Session["Admin"];
+    // Lấy thông tin người dùng từ session phù hợp
+    NguoiDung kh = null;
+
+    if (Session["Admin"] != null)
+    {
+        kh = (NguoiDung)Session["Admin"];
+    }
+    else if (Session["Nhanvien"] != null)
+    {
+        kh = (NguoiDung)Session["Nhanvien"];
+    }
+    else if (Session["TruongBan"] != null)
+    {
+        kh = (NguoiDung)Session["TruongBan"];
+    }
 }
 <div class="row">
     <div class="col-12">
@@ -16,9 +30,9 @@
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item active">
-                        <a href="javascript: void(0);">Phân bố</a>
+                        <a href="javascript: void(0);">Thanh Lý</a>
                     </li>
-                    <li class="breadcrumb-item ">Phân bố tài sản</li>
+                    <li class="breadcrumb-item ">Thanh lý tài sản</li>
                 </ol>
             </div>
         </div>
@@ -42,7 +56,6 @@
                     </li>
                 </ul>
 
-
                 <div class="tab-content">
                     <div class="tab-pane show active" id="pb_view">
 
@@ -60,127 +73,295 @@
                                     <!-- Chọn phòng -->
                                     <select onchange="" id="MaPhong" name="MaPhong" class="form-control select2" data-toggle="select2"></select>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="TS-CDCC" class="form-label">Chọn TS-CDCC cần thêm vào phòng: </label>
-                                    <!-- Chọn TS-CDCC -->
-                                    <select id="TaiSan" class="select2 form-control select2-multiple" data-toggle="select2" multiple="multiple" data-placeholder="Chọn TS-CDCC...">
-                                    </select>
-                                </div>
-                                <div style="text-align:center" class="mb-3">
-                                    <button type="button" id="XacNhan_Them_PhanBo" class="btn btn-success">Xác nhận thêm</button>
-                                    <button type="button" id="Huy_Them_PhanBo" class="btn btn-danger">Hủy thêm</button>
-                                </div>
 
 
                                 <br />
                             </div>
-
-
-                            <div class="col-lg-6 border">
-                                <div class="table-responsive">
-                                    <table id="table_list_taisan_add" class="table table-bordered dt-responsive nowrap w-100">
-                                        <thead>
-                                            <tr style="text-align: center; font-size: 13px;">
-                                                <th>Mã tài sản</th>
-                                                <th>Tên tài sản</th>
-                                                <th>Số lượng cần thêm</th>
-                                                <th>Ghi chú</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody style="text-align: center;">
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-
-
-                        </div>
-
-
-                        <hr /><br />
-
-
-                        <div class="row">
-                            <h3><center>Thông tin tài sản có trong phòng</center></h3>
-                            <div class="col-lg-12">
-                                <div class="table-responsive">
-                                    <table id="table_info_taisanhong_phong" class="table table-bordered table-centered">
-                                        <thead>
-                                            <tr style="text-align: center;">
-                                                <th>Mã tài sản</th>
-                                                <th>Thuộc nhóm tài sản</th>
-                                                <th>Tên tài sản</th>
-                                                <th>Số lượng hỏng</th>
-                                                <th>Ghi chú</th>
-                                                <th>Hành động</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody style="text-align: center;">
-                                            <!-- Dữ liệu sẽ được load vào đây bằng AJAX -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-
-                        <div class="tab-pane show" id="dspb_view">
+                            <hr /><br />
                             <div class="row">
-                                <div class="col-12">
-
+                                <h3><center>Thông tin tài sản có trong phòng</center></h3>
+                                <div class="col-lg-12">
                                     <div class="table-responsive">
-                                        <table id="table_chitiet_phanbo" class="table dt-responsive nowrap w-100">
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th style="text-align:center;">STT</th>
-                                                    <th style="text-align:center;">Tên phòng</th>
-                                                    <th style="width: 400px; text-align: center;">Tổng số lượng TS-CCDC hiện có</th>
-                                                    <th style="text-align:center;">Ngày tạo</th>
-                                                    <th style="width: 400px;text-align: center;">Hành động</th>
+                                        <table id="table_info_taisan_phong" class="table table-bordered table-centered">
+                                            <thead>
+                                                <tr style="text-align: center;">
+                                                    <th>Mã tài sản</th>
+                                                    <th>Thuộc nhóm tài sản</th>
+                                                    <th>Tên tài sản</th>
+                                                    <th>Số lượng hỏng</th>
+                                                    <th>Ghi chú</th>
+                                                    <th>Hành động</th>
                                                 </tr>
                                             </thead>
-                                            <tbody></tbody>
+                                            <tbody style="text-align: center;">
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
-                                <!-- end col -->
                             </div>
+
+
+                        </div>
+                    </div>
+                    <div class="tab-pane show" id="dspb_view">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table id="ThanhLyTable" class="table dt-responsive nowrap w-100">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Mã Thanh Lý</th>
+                                                <th>Tên Phòng</th>
+                                                <th>Tên Tài Sản</th>
+                                                <th>Số Lượng</th>
+                                                <th>Số Lượng Thanh Lý</th>
+                                                <th>Ghi Chú</th>
+                                                <th>Ngày Tạo</th>
+                                                <th>Ngày Cập Nhật</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- end col -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script type="text/javascript">
+        <script type="text/javascript">
     $(document).ready(function () {
-        // Gửi yêu cầu AJAX khi trang được tải
-        $.ajax({
-            url: '@Url.Action("DanhSachTaiSanCanThanhLy", "ThanhLy")',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                // Xử lý dữ liệu trả về và chèn vào bảng
-                var rows = '';
-                $.each(data, function (index, item) {
-                    rows += '<tr>';
-                    rows += '<td>' + item.MaTS + '</td>';
-                    rows += '<td>' + item.TenNhomTS + '</td>';
-                    rows += '<td>' + item.TenTS + '</td>';
-                    rows += '<td>' + item.SoLuongHong + '</td>';
-                    rows += '<td>' + item.GhiChu + '</td>';
-                    rows += '<td><button class="btn btn-info">Thanh lý</button></td>'; 
-                    rows += '</tr>';
-                });
-                console.log(data)
-                // Chèn các dòng dữ liệu vào bảng
-                $('#table_info_taisanhong_phong tbody').html(rows);
-            },
-            error: function () {
-                alert('Có lỗi khi tải dữ liệu!');
+        Load_Data_DSPhong();
+        var Table_Info_TaiSan_Theo_Phong = $('#table_info_taisan_phong').DataTable({
+            bFilter: true,
+            responsive: true,
+            bInfo: false,
+            scrollY: "300px",
+            scrollCollapse: true,
+            paging: false,
+        });
+        var Table_ThanhLy = $('#ThanhLyTable').DataTable({
+            "ordering": false,
+            responsive: true,
+            paging: true,
+        });
+        Load_Data_ThanhLy(Table_ThanhLy)
+        $('#table_info_taisan_phong').on('click', '.btn-update-damaged', function () {
+            const assetId = $(this).data('id');
+            const assetName = $(this).data('name');
+            const damagedQuantity = $(this).data('damaged');
+            const roomId = $(this).data('room');
+
+
+            $('#damagedAssetName').val(assetName);
+            $('#newDamagedQuantity').val(damagedQuantity);
+            $('#saveDamagedQuantity').data('id', assetId);
+            $('#saveDamagedQuantity').data('room', roomId);
+
+            $('#updateDamagedModal').modal('show');
+        });
+
+
+        $('#MaPhong').on('select2:select', function (e) {
+            var data = e.params.data;
+            if (data.id != "Chọn phòng....") {
+                MaPhong = data.id;
+                $("#TaiSan").empty();
+                Load_Data_PhanBo_Theo_MaPhong(Table_Info_TaiSan_Theo_Phong, data.id);
+
+            } else {
+                $("#TaiSan").empty();
+                Table_List_TaiSan_Add.clear().draw();
+                Table_Info_TaiSan_Theo_Phong.clear().draw();
+
             }
         });
     });
-    </script>
+            function Load_Data_ThanhLy(Name_DataTable) {
+                $.ajax({
+                    url: '@Url.Action("Get_ThanhLy_Data", "ThanhLy")',
+                    type: 'GET',
+                    success: function (response) {
+                        if (response.success) {
+                            Name_DataTable.clear().draw();
+                            $.each(response.data, function (i, item) {
+                                Name_DataTable.row.add([
+                                    `<h4>${item.MaTL}</h4>`,
+                                    `<h4>${item.TenPhong}</h4>`,
+                                    `<h4>${item.TenTS}</h4>`,
+                                    `<h4>${item.SoLuong}</h4>`,
+                                    `<h4>${item.SoLuongThanhLy}</h4>`,
+                                    `<p>${item.GhiChu || ""}</p>`,
+                                    `<span>${ToJavaScriptDate(item.NgayTao)}</span>`,
+                                    `<span>${ToJavaScriptDate(item.NgayCapNhat) }</span>`
+                                ]).draw(false);
+                            });
+                        } else {
+                            alert("Không thể tải dữ liệu: " + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Đã xảy ra lỗi khi tải dữ liệu: " + error);
+                    }
+                });
+            }
+
+         function Load_Data_PhanBo_Theo_MaPhong(Name_DataTable, MaPhong) {
+    var Get_DSPB_ByMaPhong = Get_Data_PhanBo_By_MaPhong(MaPhong);
+    Name_DataTable.clear().draw();
+
+    if (Get_DSPB_ByMaPhong != "Error_Get_Data_PhanBo_By_MaPhong") {
+        $.each(Get_DSPB_ByMaPhong.data, function (i, item) {
+
+            console.log('MaPhong trong Load_Data_PhanBo_Theo_MaPhong:', MaPhong);
+
+            Name_DataTable.row.add([
+                "<h4>" + item.MaTS + "</h4>",
+                '<h4><span class="badge bg-danger text-light">' + item.TenNhomTS + '</span></h4>',
+                '<h4><span class="badge bg-dark text-light">' + item.TenTS + '</span></h4>',
+                '<h4><span class="badge bg-light text-dark">' + item.SoLuongHong + '</span></h4>',
+                item.GhiChu,
+                `<button class="btn btn-primary btn-update-damaged"
+                  data-id="${item.MaTS}"
+                  data-name="${item.TenTS}"
+                  data-damaged="${item.SoLuongHong}"
+                  data-room="${MaPhong}">Thanh lý</button>`
+            ]).draw(false);
+        });
+
+        // Xử lý sự kiện khi click vào nút "Thanh lý"
+        $('.btn-update-damaged').on('click', function () {
+            var MaTS = $(this).data('id');
+            var TenTS = $(this).data('name');
+            var SoLuongHong = $(this).data('damaged');
+            var MaPhong = $(this).data('room');
+
+            $.ajax({
+                url: '@Url.Action("ThanhLyTaiSan", "ThanhLy")',
+                type: 'POST',
+                data: { MaTS: MaTS, MaPhong: MaPhong },
+                success: function (response) {
+                    if (response.success) {
+                        alert('Thanh lý tài sản ' + TenTS + ' thành công!');
+                        Load_Data_PhanBo_Theo_MaPhong(Name_DataTable, MaPhong);
+                    } else {
+                        alert('Lỗi: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Đã xảy ra lỗi khi thanh lý tài sản: ' + error);
+                }
+            });
+        });
+    } else {
+        Name_DataTable.clear().draw();
+    }
+}
+
+    function Load_Data_DSTaiSan() {
+        var Get_DSTaiSan = Get_Data_DSTaiSan();
+        if (Get_DSTaiSan != "Error_Get_Data_DSTaiSan") {
+            $("#TaiSan").empty();
+            $("#table_add_pb tbody tr").remove();
+            $.each(Get_DSTaiSan.data, function (i, item) {
+                if (item.SoLuong >= 1) // nếu còn mới hiện
+                {
+                    $('#TaiSan').append($('<option>', { value: item.MaTS, text: item.TenTS + " - Số lượng còn lại: " + item.SoLuong }));
+                }
+
+            });
+        }
+    }
+
+
+    function Load_Data_DSPhong() {
+        var Get_DSPhong = Get_Data_DSPhong();
+        if (Get_DSPhong != "Error_Get_Data_DSPhong") {
+            $("#MaPhong").empty();
+            $('#MaPhong').append($('<option>', { value: "Chọn phòng....", text: "Chọn phòng...." }));
+            $.each(Get_DSPhong.data, function (i, item) {
+                $('#MaPhong').append($('<option>', { value: item.MaPhong, text: item.TenPhong }));
+            });
+        }
+    }
+
+
+    function Get_Data_PhanBo_By_MaPhong(MaPhong) {
+        var result = "";
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("Select_PhanBo_By_MaPhong", "ThanhLy")',
+            data: { MaPhong: MaPhong },
+            dataType: 'json',
+            contentType: 'application/json;charset=utf-8',
+            async: false,
+            cache: false,
+            success: function (data) {
+                result = data;
+            },
+            error: function (ex) {
+                result = "Error_Get_Data_PhanBo_By_MaPhong";
+            }
+        });
+        return result;
+    }
+
+    function Get_Data_DSPhong() {
+        var result = "";
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("Select_Phong", "Phong")',
+            dataType: 'json',
+            contentType: 'application/json;charset=utf-8',
+            async: false,
+            cache: false,
+            success: function(data) {
+                result = data;
+            },
+            error: function(ex) {
+                result = "Error_Get_Data_DSPhong";
+            }
+        });
+        return result;
+    }
+
+    function Get_Data_TaiSan_By_MaPhong(MaTS) {
+        var result = "";
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("Select_TaiSan_By_MaTS", "TaiSan")',
+            data: { MaTS: MaTS },
+            dataType: 'json',
+            contentType: 'application/json;charset=utf-8',
+            async: false,
+            cache: false,
+            success: function (data) {
+                result = data;
+            },
+            error: function (ex) {
+                result = "Error_Get_Data_TaiSan_By_MaPhong";
+            }
+        });
+        return result;
+    }
+
+    function Get_Data_DSTaiSan() {
+        var result = "";
+	    $.ajax({
+		    type: 'GET',
+		    url: '@Url.Action("Select_TaiSan", "TaiSan")',
+		    dataType: 'json',
+		    contentType: 'application/json;charset=utf-8',
+            async: false,
+            cache: false,
+		    success: function(data) {
+                result = data;
+		    },
+		    error: function(ex) {
+                result = "Error_Get_Data_DSTaiSan";
+		    }
+	    });
+        return result;
+    }
+        </script>

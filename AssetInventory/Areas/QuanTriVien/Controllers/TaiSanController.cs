@@ -417,26 +417,34 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
         [HttpGet]
         public JsonResult Select_PhanBo_By_MaPhong(int MaPhong)
         {
-            var get_data = from s in db.PhanBos
-                           where s.MaPhong == MaPhong
-                           join ts1 in db.TaiSans on s.MaTS equals ts1.MaTS
-                           join nts in db.NhomTaiSans on ts1.MaNhomTS equals nts.MaNhomTS
-                           select new
-                           {
-                               s.MaTS,
-                               ts1.MaNhomTS,
-                               nts.TenNhomTS,
-                               ts1.TenTS,
-                               ts1.GiaTri,
-                               s.SoLuong,
-                               s.SoLuongHong,
-                               ts1.HangSanXuat,
-                               ts1.NamSanXuat,
-                               ts1.NuocSanXuat,
-                               s.GhiChu,
-                               s.NgayCapNhat
-                           };
-            return Json(new { data = get_data.OrderByDescending(s => s.NgayCapNhat) }, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var get_data = from s in db.PhanBos 
+                               where s.MaPhong == MaPhong where s.SoLuong > 0
+                               join ts1 in db.TaiSans on s.MaTS equals ts1.MaTS
+                               join nts in db.NhomTaiSans on ts1.MaNhomTS equals nts.MaNhomTS
+                               select new
+                               {
+                                   s.MaTS,
+                                   ts1.MaNhomTS,
+                                   nts.TenNhomTS,
+                                   ts1.TenTS,
+                                   ts1.GiaTri,
+                                   s.SoLuong,
+                                   s.SoLuongHong,
+                                   ts1.HangSanXuat,
+                                   ts1.NamSanXuat,
+                                   ts1.NuocSanXuat,
+                                   s.GhiChu,
+                                   s.NgayCapNhat
+                               };
+
+                return Json(new { data = get_data.OrderByDescending(s => s.NgayCapNhat) }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Đã xảy ra lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [HttpPost]
@@ -552,6 +560,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
             try
             {
                 var phanBo = db.PhanBos.FirstOrDefault(p => p.MaTS == pb.MaTS && p.MaPhong == pb.MaPhong);
+
                 if (phanBo == null)
                 {
                     return Json(new { success = false, message = "Không tìm thấy tài sản cần cập nhật." });
@@ -561,8 +570,12 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 {
                     return Json(new { success = false, message = "Số lượng hỏng không được nhỏ hơn 0." });
                 }
+              
+                else
+                {
+                    phanBo.SoLuongHong = pb.SoLuongHong;
+                }
 
-                phanBo.SoLuongHong = pb.SoLuongHong;
                 phanBo.NgayCapNhat = DateTime.Now;
                 db.SubmitChanges();
 
@@ -574,5 +587,6 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 return Json(new { success = false, message = "Đã xảy ra lỗi: " + ex.Message });
             }
         }
+
     }
 }

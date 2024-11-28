@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static AssetInventory.Models.Phong;
 
 namespace AssetInventory.Areas.QuanTriVien.Controllers
 {
@@ -12,82 +13,122 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
         // GET: QuanTriVien/ThanhLy
         AIDataContext db = new AIDataContext();
 
-       
+
 
         [HttpPost]
-        public JsonResult ThanhLyTaiSan(int MaPhong)
+        public JsonResult ThanhLyTaiSan(int MaTS, int MaPhong)
         {
             try
             {
-                // Lấy danh sách tài sản trong phòng với SoLuongHong > 0
-                var danhSachTaiSan = (from s in db.PhanBos
-                                      where s.MaPhong == MaPhong && s.SoLuongHong > 0
-                                      join ts1 in db.TaiSans on s.MaTS equals ts1.MaTS
-                                      join nts in db.NhomTaiSans on ts1.MaNhomTS equals nts.MaNhomTS
-                                      select new
-                                      {
-                                          s.MaTS,
-                                          ts1.MaNhomTS,
-                                          nts.TenNhomTS,
-                                          ts1.TenTS,
-                                          ts1.GiaTri,
-                                          s.SoLuong,
-                                          s.SoLuongHong,
-                                          ts1.HangSanXuat,
-                                          ts1.NamSanXuat,
-                                          ts1.NuocSanXuat,
-                                          s.GhiChu,
-                                          s.NgayCapNhat
-                                      }).ToList();
+                // Tìm Phân bổ theo MaTS và MaPhong
+                var phanBo = db.PhanBos.FirstOrDefault(p => p.MaTS == MaTS && p.MaPhong == MaPhong);
 
-                if (!danhSachTaiSan.Any())
+                if (phanBo == null)
                 {
-                    return Json(new { success = false, message = "Không có tài sản hỏng trong phòng này để thanh lý." });
+                    return Json(new { success = false, message = "Tài sản không tìm thấy trong phòng này." });
                 }
 
-                // Cập nhật số lượng hỏng của các tài sản về 0
-                foreach (var item in danhSachTaiSan)
+                // Kiểm tra nếu có số lượng hỏng lớn hơn 0
+                if (phanBo.SoLuongHong > 0)
                 {
-                    var phanBo = db.PhanBos.FirstOrDefault(p => p.MaTS == item.MaTS && p.MaPhong == MaPhong);
-                    if (phanBo != null)
+                    // Tạo bản ghi thanh lý
+                    ThanhLy thanhLy = new ThanhLy
                     {
-                        phanBo.SoLuongHong = 0;  // Cập nhật số lượng hỏng thành 0
-                        phanBo.NgayCapNhat = DateTime.Now;
-                    }
+                        MaPB = phanBo.MaPB,
+                        SoLuongThanhLy = phanBo.SoLuongHong,
+                        GhiChu = "Thanh lý tài sản: " + phanBo.MaTS,
+                        NgayCapNhat = DateTime.Now,
+                        NgayTao = DateTime.Now
+                    };
+
+                    db.ThanhLys.InsertOnSubmit(thanhLy);
+
+                    int soLuongThanhLy = phanBo.SoLuongHong;
+                    phanBo.SoLuongHong = 0; 
+                    phanBo.SoLuong -= soLuongThanhLy; 
+                    if (phanBo.SoLuong < 0)
+                    {
+                        phanBo.SoLuong = 0; 
+                    }           
+                    phanBo.NgayCapNhat = DateTime.Now;
+
+                    db.SubmitChanges(); // Lưu thay đổi vào cơ sở dữ liệu
+
+                    return Json(new { success = true, message = "Thanh lý tài sản thành công." });
                 }
-
-                db.SubmitChanges();  // Lưu thay đổi vào cơ sở dữ liệu
-
-                return Json(new { success = true, message = "Thanh lý tài sản thành công." });
+                else
+                {
+                    return Json(new { success = false, message = "Không có tài sản hỏng để thanh lý." });
+                }
             }
             catch (Exception ex)
             {
                 return Json(new { success = false, message = "Đã xảy ra lỗi: " + ex.Message });
             }
         }
+
         [HttpGet]
         public ActionResult Index()
-        {  
+        {
             return View();
         }
         [HttpGet]
-        public JsonResult DanhSachTaiSanCanThanhLy()
+        public JsonResult Get_ThanhLy_Data()
         {
-            var danhSachTaiSanCanThanhLy = (from s in db.PhanBos
-                                            where s.SoLuongHong > 0
-                                            join ts1 in db.TaiSans on s.MaTS equals ts1.MaTS
-                                            join nts in db.NhomTaiSans on ts1.MaNhomTS equals nts.MaNhomTS
-                                            select new
-                                            {
-                                                s.MaTS,
-                                                nts.TenNhomTS,
-                                                ts1.TenTS,
-                                                s.SoLuongHong,
-                                                s.GhiChu
-                                            }).ToList();
+            try
+            {
 
-            return Json(danhSachTaiSanCanThanhLy, JsonRequestBehavior.AllowGet);
+                var thanhLyData = from tl in db.ThanhLys
+                                  join pb in db.PhanBos on tl.MaPB equals pb.MaPB
+                                  join ts in db.TaiSans on pb.MaTS equals ts.MaTS
+                                  join p in db.Phongs on pb.MaPhong equals p.MaPhong
+                                  select new
+                                  {
+                                      tl.MaTL,
+                                      tl.MaPB,
+                                      ts.TenTS,
+                                      pb.SoLuong,
+                                      tl.SoLuongThanhLy,
+                                      p.TenPhong,
+                                      tl.GhiChu,
+                                      NgayCapNhat = tl.NgayCapNhat,
+                                      NgayTao = tl.NgayTao
+                                  };
+
+                return Json(new { success = true, data = thanhLyData.ToList() }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Đã xảy ra lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
+
+        [HttpGet]
+        public JsonResult Select_PhanBo_By_MaPhong(int MaPhong)
+        {
+            var get_data = from s in db.PhanBos
+                           where s.MaPhong == MaPhong
+                           where s.SoLuongHong > 0
+                           join ts1 in db.TaiSans on s.MaTS equals ts1.MaTS
+                           join nts in db.NhomTaiSans on ts1.MaNhomTS equals nts.MaNhomTS
+                           select new
+                           {
+                               s.MaTS,
+                               ts1.MaNhomTS,
+                               nts.TenNhomTS,
+                               ts1.TenTS,
+                               ts1.GiaTri,
+                               s.SoLuong,
+                               s.SoLuongHong,
+                               ts1.HangSanXuat,
+                               ts1.NamSanXuat,
+                               ts1.NuocSanXuat,
+                               s.GhiChu,
+                               s.NgayCapNhat
+                           };
+            return Json(new { data = get_data.OrderByDescending(s => s.NgayCapNhat) }, JsonRequestBehavior.AllowGet);
+        }
+
 
 
     }

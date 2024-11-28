@@ -20,9 +20,9 @@ namespace AssetInventory.Models
 	using System.Linq.Expressions;
 	using System.ComponentModel;
 	using System;
-	
-	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="KiemKeTaiSan")]
+    using static AssetInventory.Models.Phong;
+
+    [global::System.Data.Linq.Mapping.DatabaseAttribute(Name="KiemKeTaiSan")]
 	public partial class AIDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -204,7 +204,14 @@ namespace AssetInventory.Models
 				return this.GetTable<Phong>();
 			}
 		}
-	}
+        public System.Data.Linq.Table<ThanhLy> ThanhLys
+        {
+            get
+            {
+                return this.GetTable<ThanhLy>();
+            }
+        }
+    }
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.BanKiemKe")]
 	public partial class BanKiemKe : INotifyPropertyChanging, INotifyPropertyChanged
@@ -2577,11 +2584,11 @@ namespace AssetInventory.Models
 		private System.DateTime _NgayCapNhat;
 		
 		private System.DateTime _NgayTao;
-		
-		private System.Nullable<int> _SoLuongHong;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
+
+        private int _SoLuongHong;
+
+        #region Extensibility Method Definitions
+        partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
     partial void OnMaPBChanging(int value);
@@ -2790,28 +2797,28 @@ namespace AssetInventory.Models
 				}
 			}
 		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoLuongHong", DbType="Int")]
-		public System.Nullable<int> SoLuongHong
-		{
-			get
-			{
-				return this._SoLuongHong;
-			}
-			set
-			{
-				if ((this._SoLuongHong != value))
-				{
-					this.OnSoLuongHongChanging(value);
-					this.SendPropertyChanging();
-					this._SoLuongHong = value;
-					this.SendPropertyChanged("SoLuongHong");
-					this.OnSoLuongHongChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SoLuongHong", DbType = "Int")]
+        public int SoLuongHong
+        {
+            get
+            {
+                return this._SoLuongHong;
+            }
+            set
+            {
+                if ((this._SoLuongHong != value))
+                {
+                    this.OnSoLuongHongChanging(value);
+                    this.SendPropertyChanging();
+                    this._SoLuongHong = value;
+                    this.SendPropertyChanged("SoLuongHong");
+                    this.OnSoLuongHongChanged();
+                }
+            }
+        }
+
+        public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
 		
@@ -3218,6 +3225,120 @@ namespace AssetInventory.Models
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
-	}
+        [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ThanhLy")]
+        public partial class ThanhLy : INotifyPropertyChanging, INotifyPropertyChanged
+        {
+            private int _MaTL;
+            private int _MaPB;
+            private int _SoLuongThanhLy;
+            private string _GhiChu;
+            private System.DateTime _NgayCapNhat;
+
+            private System.Nullable<System.DateTime> _NgayTao;
+
+            public event PropertyChangingEventHandler PropertyChanging;
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            [Column(IsPrimaryKey = true, IsDbGenerated = true, DbType = "Int NOT NULL IDENTITY", CanBeNull = false)]
+            public int MaTL
+            {
+                get => _MaTL;
+                set
+                {
+                    if (_MaTL != value)
+                    {
+                        OnPropertyChanging(nameof(MaTL));
+                        _MaTL = value;
+                        OnPropertyChanged(nameof(MaTL));
+                    }
+                }
+            }
+
+            [Column(DbType = "Int NOT NULL", CanBeNull = false)]
+            public int MaPB
+            {
+                get => _MaPB;
+                set
+                {
+                    if (_MaPB != value)
+                    {
+                        OnPropertyChanging(nameof(MaPB));
+                        _MaPB = value;
+                        OnPropertyChanged(nameof(MaPB));
+                    }
+                }
+            }
+
+            [Column(DbType = "Int NOT NULL", CanBeNull = false)]
+            public int SoLuongThanhLy
+            {
+                get => _SoLuongThanhLy;
+                set
+                {
+                    if (_SoLuongThanhLy != value)
+                    {
+                        OnPropertyChanging(nameof(SoLuongThanhLy));
+                        _SoLuongThanhLy = value;
+                        OnPropertyChanged(nameof(SoLuongThanhLy));
+                    }
+                }
+            }
+
+            [Column(DbType = "NVarChar(300)", CanBeNull = true)]
+            public string GhiChu
+            {
+                get => _GhiChu;
+                set
+                {
+                    if (_GhiChu != value)
+                    {
+                        OnPropertyChanging(nameof(GhiChu));
+                        _GhiChu = value;
+                        OnPropertyChanged(nameof(GhiChu));
+                    }
+                }
+            }
+
+            [Column(DbType = "DateTime NOT NULL", CanBeNull = false)]
+            public DateTime NgayCapNhat
+            {
+                get => _NgayCapNhat;
+                set
+                {
+                    if (_NgayCapNhat != value)
+                    {
+                        OnPropertyChanging(nameof(NgayCapNhat));
+                        _NgayCapNhat = value;
+                        OnPropertyChanged(nameof(NgayCapNhat));
+                    }
+                }
+            }
+
+            [Column(DbType = "DateTime NOT NULL", CanBeNull = false)]
+            public System.Nullable<System.DateTime> NgayTao
+            {
+                get => _NgayTao;
+                set
+                {
+                    if (_NgayTao != value)
+                    {
+                        OnPropertyChanging(nameof(NgayTao));
+                        _NgayTao = value;
+                        OnPropertyChanged(nameof(NgayTao));
+                    }
+                }
+            }
+
+            protected virtual void OnPropertyChanging(string propertyName)
+            {
+                PropertyChanging?.Invoke(this, emptyChangingEventArgs);
+            }
+
+            protected virtual void OnPropertyChanged(string propertyName)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
 }
 #pragma warning restore 1591
