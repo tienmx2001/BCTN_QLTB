@@ -57,7 +57,7 @@
                     </a>
                 </li>
             }
-            
+
             @if (Session["Admin"] != null || Session["TruongBan"] != null)
             {
                 <li class="side-nav-title side-nav-item"><hr /></li>
@@ -89,6 +89,18 @@
                     <a href="@Url.Action("Index", "KiemKe")" class="side-nav-link">
                         <i class="mdi mdi-book-edit-outline"></i>
                         <span>Kiểm kê</span>
+                    </a>
+                </li>
+            }
+
+            <!-- Kiểm kê -->
+            @if (Session["Admin"] != null || Session["TruongBan"] != null)
+            {
+                <li class="side-nav-title side-nav-item"><hr /></li>
+                <li class="side-nav-item">
+                    <a href="@Url.Action("Index", "ThongKe")" class="side-nav-link">
+                        <i class="mdi mdi-book-edit-outline"></i>
+                        <span>Thống kê</span>
                     </a>
                 </li>
             }

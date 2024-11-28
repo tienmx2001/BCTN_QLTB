@@ -1,7 +1,15 @@
-﻿namespace AssetInventory.Areas.QuanTriVien.Controllers
+﻿using AssetInventory.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace AssetInventory.Areas.QuanTriVien.Controllers
 {
     public class ThongKeController : Controller
     {
+        // GET: QuanTriVien/ThongKe
         AIDataContext db = new AIDataContext();
 
         // GET: QuanTriVien/ThongKe

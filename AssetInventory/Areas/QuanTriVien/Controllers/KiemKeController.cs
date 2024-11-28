@@ -1,5 +1,10 @@
-﻿using AssetInventory.Models;
-
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using AssetInventory.Models;
 namespace AssetInventory.Areas.QuanTriVien.Controllers
 {
     public class KiemKeController : Controller
@@ -234,6 +239,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                                                p.HangSanXuat,
                                                p.NuocSanXuat,
                                                p.NamSanXuat,
+                                               p.MaTS,
                                            };
             var check_phieukiemke = from s in db.PhieuKiemKes
                                     where s.MaPhieu == MaPhieu

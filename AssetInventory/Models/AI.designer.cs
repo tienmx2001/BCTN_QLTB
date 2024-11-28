@@ -1190,28 +1190,28 @@ namespace AssetInventory.Models
 				}
 			}
 		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaTS", DbType="Int NOT NULL")]
-		public int MaTS
-		{
-			get
-			{
-				return this._MaTS;
-			}
-			set
-			{
-				if ((this._MaTS != value))
-				{
-					this.OnMaTSChanging(value);
-					this.SendPropertyChanging();
-					this._MaTS = value;
-					this.SendPropertyChanged("MaTS");
-					this.OnMaTSChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_MaTS", DbType = "Int NOT NULL")]
+        public int MaTS
+        {
+            get
+            {
+                return this._MaTS;
+            }
+            set
+            {
+                if ((this._MaTS != value))
+                {
+                    this.OnMaTSChanging(value);
+                    this.SendPropertyChanging();
+                    this._MaTS = value;
+                    this.SendPropertyChanged("MaTS");
+                    this.OnMaTSChanged();
+                }
+            }
+        }
+
+        public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
 		

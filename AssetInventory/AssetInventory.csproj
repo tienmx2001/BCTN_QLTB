@@ -126,6 +126,7 @@
     <Compile Include="Areas\QuanTriVien\Controllers\PhongController.cs" />
     <Compile Include="Areas\QuanTriVien\Controllers\TaiSanController.cs" />
     <Compile Include="Areas\QuanTriVien\Controllers\ThanhLyController.cs" />
+    <Compile Include="Areas\QuanTriVien\Controllers\ThongKeController.cs" />
     <Compile Include="Areas\QuanTriVien\Controllers\TrangChuController.cs" />
     <Compile Include="Areas\QuanTriVien\QuanTriVienAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
