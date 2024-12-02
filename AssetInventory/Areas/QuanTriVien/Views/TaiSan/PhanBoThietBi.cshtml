@@ -33,7 +33,7 @@
                     <li class="breadcrumb-item active">
                         <a href="javascript: void(0);">Phân bố</a>
                     </li>
-                    <li class="breadcrumb-item ">Phân bố tài sản</li>
+                    <li class="breadcrumb-item ">Phân bố thiết bị</li>
                 </ol>
             </div>
         </div>
@@ -47,7 +47,7 @@
             <div class="card-body">
 
                 <h4 class="header-title">Quản lý phân bố</h4>
-                <p class="text-muted font-14"> Phân bố các tài sản, công cụ dụng cụ cho các phòng học, ngoài ra có thể chỉnh sửa một cách dễ dàng với những người dùng có phân quyền tương ứng... </p>
+                <p class="text-muted font-14"> Phân bố các thiết bị, dụng cụ cho các phòng học, ngoài ra có thể chỉnh sửa một cách dễ dàng với những người dùng có phân quyền tương ứng... </p>
                 <ul class="nav nav-tabs nav-bordered mb-3">
                     <li class="nav-item">
                         <a href="#pb_view" data-bs-toggle="tab" aria-expanded="false" class="nav-link active"> Phân bố </a>
@@ -76,9 +76,9 @@
                                     <select onchange="" id="MaPhong" name="MaPhong" class="form-control select2" data-toggle="select2"></select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="TS-CDCC" class="form-label">Chọn TS-CDCC cần thêm vào phòng: </label>
+                                    <label for="TS-CDCC" class="form-label">Chọn thiết bị cần thêm vào phòng: </label>
                                     <!-- Chọn TS-CDCC -->
-                                    <select id="TaiSan" class="select2 form-control select2-multiple" data-toggle="select2" multiple="multiple" data-placeholder="Chọn TS-CDCC...">
+                                    <select id="TaiSan" class="select2 form-control select2-multiple" data-toggle="select2" multiple="multiple" data-placeholder=" ">
                                     </select>
                                 </div>
                                 <div style="text-align:center" class="mb-3">
@@ -96,8 +96,8 @@
                                     <table id="table_list_taisan_add" class="table table-bordered dt-responsive nowrap w-100">
                                         <thead>
                                             <tr style="text-align: center; font-size: 13px;">
-                                                <th>Mã tài sản</th>
-                                                <th>Tên tài sản</th>
+                                                <th>Mã thiết bị</th>
+                                                <th>Tên thiết bị</th>
                                                 <th>Số lượng cần thêm</th>
                                                 <th>Ghi chú</th>
                                             </tr>
@@ -118,15 +118,15 @@
 
                         <div class="row">
 
-                            <h3><center>Thông sản tài sản có trong phòng</center></h3>
+                            <h3><center>Thông tin thiết bị có trong phòng</center></h3>
                             <div class="col-lg-12">
                                 <div class="table-responsive">
                                     <table id="table_info_taisan_phong" class="table table-bordered table-centered">
                                         <thead>
                                             <tr style="text-align: center;">
-                                                <th>Mã tài sản</th>
-                                                <th>Thuộc nhóm tài sản</th>
-                                                <th>Tên tài sản</th>
+                                                <th>Mã thiết bị</th>
+                                                <th>Thuộc nhóm thiết bị</th>
+                                                <th>Tên thiết bị</th>
                                                 <th>Số lượng hiện đang có</th>
                                                 <th>Số lượng hỏng</th>
                                                 <th>Số lượng còn lại</th>
@@ -164,7 +164,7 @@
                                             <tr>
                                                 <th style="text-align:center;">STT</th>
                                                 <th style="text-align:center;">Tên phòng</th>
-                                                <th style="width: 400px; text-align: center;">Tổng số lượng TS-CCDC hiện có</th>
+                                                <th style="width: 400px; text-align: center;">Tổng số lượng thiết bị hiện có</th>
                                                 <th style="text-align:center;">Ngày tạo</th>
                                                 <th style="width: 400px;text-align: center;">Hành động</th>
                                             </tr>
@@ -193,7 +193,7 @@
             <div class="modal-body">
                 <form>
                     <div class="mb-3">
-                        <label for="damagedAssetName" class="form-label">Tên tài sản</label>
+                        <label for="damagedAssetName" class="form-label">Tên thiết bị</label>
                         <input type="text" id="damagedAssetName" class="form-control" readonly>
                     </div>
                     <div class="mb-3">
@@ -225,7 +225,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <center>
-                                    <p style="color: yellow; font-weight: bold; font-size: 20px;" class="header-title">Chi tiết các tài sản có trong phòng học</p>
+                                    <p style="color: yellow; font-weight: bold; font-size: 20px;" class="header-title">Chi tiết các thiết bị có trong phòng học</p>
                                 </center>
                                 <hr>
                                 <table id="table_show_chitiet_phanbo" class="table table-bordered dt-responsive nowrap w-100">
@@ -235,6 +235,7 @@
                                             <th>Thuộc nhóm tài sản</th>
                                             <th>Tên tài sản</th>
                                             <th>Số lượng</th>
+                                            <th>Số lượng hỏng</th>
                                             <th>Hãng sản xuất</th>
                                             <th>Năm sản xuất</th>
                                             <th>Nước sản xuất</th>
@@ -250,7 +251,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Chỉnh sửa tài sản phòng này</button>
+                <button type="button" class="btn btn-primary">Chỉnh sửa thiết bị phòng này</button>
                 <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Tắt</button>
             </div>
         </div>
@@ -323,7 +324,7 @@ $(document).ready(function () {
     });
     $('#MaPhong').on('select2:select', function (e) {
         var data = e.params.data;
-        if (data.id != "Chọn phòng....") { // nếu click khác "chọn phòng...." thì mới hiển thị ds tài sản
+        if (data.id != "Chọn phòng....") { // nếu click khác "chọn phòng...." thì mới hiển thị ds thiết bị
             MaPhong = data.id;
             $("#TaiSan").empty();
             Load_Data_DSTaiSan();
@@ -333,7 +334,7 @@ $(document).ready(function () {
             $("#TaiSan").empty();
             Load_Data_DSTaiSan();
             Table_List_TaiSan_Add.clear().draw();
-            Table_Info_TaiSan_Theo_Phong.clear().draw(); // xóa table hiển thị ds tài sản theo phòng
+            Table_Info_TaiSan_Theo_Phong.clear().draw(); // xóa table hiển thị ds thiết bị theo phòng
 
         }
     });
@@ -365,13 +366,13 @@ $('#TaiSan').on('select2:select', function (e) { // nếu click vào chọn thi�
     $("#XacNhan_Them_PhanBo").click(function () {
 
         if (MaPhong == "") {
-            ThongBao("Thông báo", "Bạn chưa chọn Phòng cần phân bổ");
+            ThongBao("Thông báo", "Bạn chưa chọn Phòng cần phân bố");
         } else {
 
 
             $.confirm({ // xác nhận thêm
                 title: 'Thông báo',
-                content: "Bạn có chắc chắn muốn thêm TS-CDCC",
+                content: "Bạn có chắc chắn muốn thêm thiết bị",
                 theme: 'dark',
                 buttons: {
                     XacNhan: {
@@ -386,7 +387,7 @@ $('#TaiSan').on('select2:select', function (e) { // nếu click vào chọn thi�
                             setTimeout(function () {
                                 $("#TaiSan").empty();
                                 Table_List_TaiSan_Add.clear().draw();
-                                Table_Info_TaiSan_Theo_Phong.clear().draw(); // xóa table hiển thị ds tài sản theo phòng
+                                Table_Info_TaiSan_Theo_Phong.clear().draw(); // xóa table hiển thị ds thiết bị theo phòng
                                 Load_Data_DSTaiSan();
                                 Load_Table_ChiTiet_PhanBo(Table_ChiTiet_PhanBo);
                                 $('button[name="Xem_ChiTiet"]').click(function (e) {
@@ -395,7 +396,7 @@ $('#TaiSan').on('select2:select', function (e) { // nếu click vào chọn thi�
                                 });
                                 //Load_Data_PhanBo_Theo_MaPhong(Table_Info_TaiSan_Theo_Phong, MaPhong);
                                 Load_Data_DSPhong();
-                                ThongBao("Thành công", "Phân bố TS-CDCC thành công !!!");
+                                ThongBao("Thành công", "Phân bố thiết bị thành công !!!");
                             }, 100);
 
                         }
@@ -417,7 +418,7 @@ $('#TaiSan').on('select2:select', function (e) { // nếu click vào chọn thi�
         setTimeout(function () {
             $("#TaiSan").empty();
             Table_List_TaiSan_Add.clear().draw();
-            Table_Info_TaiSan_Theo_Phong.clear().draw(); // xóa table hiển thị ds tài sản theo phòng
+            Table_Info_TaiSan_Theo_Phong.clear().draw(); // xóa table hiển thị ds thiết bị theo phòng
             Load_Data_DSTaiSan();
             Load_Data_DSPhong();
             ThongBao("Thành công", "Đã hủy thêm");
@@ -465,7 +466,7 @@ $('#TaiSan').on('select2:select', function (e) { // nếu click vào chọn thi�
             },
             error: function (error) {
                 console.error(error);
-                alert("Đã xảy ra lỗi khi cập nhật tài sản.");
+                alert("Đã xảy ra lỗi khi cập nhật thiết bị.");
             }
         });
     });
@@ -556,6 +557,8 @@ function Load_ChiTiet_PhanBo(Name_DataTable, MaPhong) {
                     '<h3><span class="badge badge-primary-lighten rounded-pill">' + item.MaTS +'</span></h3>',
                     '<h3><span class="badge bg-success text-light">' + item.TenNhomTS + '</span></h3>',
                     '<h3><span class="badge bg-secondary text-light">' + item.TenTS + '</span></h3>',
+                    item.SoLuong,
+                    item.SoLuongHong,
                     item.HangSanXuat,
                     item.NamSanXuat,
                     item.NuocSanXuat,

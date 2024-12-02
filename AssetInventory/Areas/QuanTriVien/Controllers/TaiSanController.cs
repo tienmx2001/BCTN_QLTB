@@ -123,7 +123,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                               select s;
             if (check_taisan.Count() >= 1)
             {
-                return Json(new { Message = "Thêm mới tài sản thất bại, tên tài sản này đã tồn tại", code = false });
+                return Json(new { Message = "Thêm mới thiết bị thất bại, tên thiết bị này đã tồn tại", code = false });
             }
             if (string.IsNullOrEmpty(ts.GhiChu))
             {
@@ -155,7 +155,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                                select s;
             if (check_nhomtaisan.Count() >= 1)
             {
-                return Json(new { Message = "Thêm mới nhóm tài sản thất bại, tên nhóm tài sản này đã tồn tại", code = false });
+                return Json(new { Message = "Thêm mới nhóm thiết bị thất bại, tên nhóm thiết bị này đã tồn tại", code = false });
             }
             if (string.IsNullOrEmpty(nts.GhiChu))
             {
@@ -186,7 +186,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                                    select s;
             if (check_loaitaisan.Count() >= 1)
             {
-                return Json(new { Message = "Thêm mới loại tài sản thất bại, tên loại tài sản này đã tồn tại", code = false });
+                return Json(new { Message = "Thêm mới loại thiết bị thất bại, tên loại thiết bị này đã tồn tại", code = false });
             }
             if (string.IsNullOrEmpty(lts.GhiChu))
             {
@@ -242,11 +242,11 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 nkhd.NgayHoatDong = DateTime.Now;
                 db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
                 db.SubmitChanges();
-                return Json(new { code = true, msg = "Sửa thành công nha :3" }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = true, msg = "Sửa thành công" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new { code = false, msg = "Sửa hổng được, hình như có lỗi á :3" + ex.Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = false, msg = "Không thể sửa đã có lỗi" + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -278,11 +278,11 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 nkhd.NgayHoatDong = DateTime.Now;
                 db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
                 db.SubmitChanges();
-                return Json(new { code = true, msg = "Sửa thành công nha :3" }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = true, msg = "Sửa thành công" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new { code = false, msg = "Sửa hổng được, hình như có lỗi á :3" + ex.Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = false, msg = "Không thể sửa đã có lỗi" + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -313,11 +313,11 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 nkhd.NgayHoatDong = DateTime.Now;
                 db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
                 db.SubmitChanges();
-                return Json(new { code = true, msg = "Sửa thành công nha :3" }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = true, msg = "Sửa thành công" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new { code = false, msg = "Sửa hổng được, hình như có lỗi á :3" + ex.Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = false, msg = "Không thể sửa đã có lỗi" + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -339,11 +339,11 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 nkhd.NgayHoatDong = DateTime.Now;
                 db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
                 db.SubmitChanges();
-                return Json(new { code = true, msg = "Xóa thành công nha :3" }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = true, msg = "Xóa thành công" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new { code = false, msg = "Xóa hổng được, hình như có lỗi á :3 \n Chi tiết lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = false, msg = "Không thể sửa đã có lỗi \n Chi tiết lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -365,11 +365,11 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 nkhd.NgayHoatDong = DateTime.Now;
                 db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
                 db.SubmitChanges();
-                return Json(new { code = true, msg = "Xóa thành công nha :3" }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = true, msg = "Xóa thành công" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new { code = false, msg = "Xóa hổng được, hình như có lỗi á :3 \n Chi tiết lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = false, msg = "Không thể sửa đã có lỗi \n Chi tiết lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -390,11 +390,11 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 nkhd.NgayHoatDong = DateTime.Now;
                 db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
                 db.SubmitChanges();
-                return Json(new { code = true, msg = "Xóa thành công nha :3" }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = true, msg = "Xóa thành công nha" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new { code = false, msg = "Xóa hổng được, hình như có lỗi á :3 \n Chi tiết lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = false, msg = "Không thể sửa đã có lỗi \n Chi tiết lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -486,7 +486,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                         NhatKyHoatDong nkhd = new NhatKyHoatDong();
                         nkhd.TenDangNhap = kh_insert.ChucDanh;
                         nkhd.HoatDong = "Thêm";
-                        nkhd.ChiTietHoatDong = "Vừa phân bổ thiết bị vào phòng: " + pb.MaPhong + " - Mã thiết bị là: " + pb.MaTS;
+                        nkhd.ChiTietHoatDong = "Vừa phân bố thiết bị vào phòng: " + pb.MaPhong + " - Mã thiết bị là: " + pb.MaTS;
                         nkhd.NgayHoatDong = DateTime.Now;
                         db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
                         db.SubmitChanges();
@@ -494,7 +494,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                     }
                     else
                     {
-                        return Json(new { Message = "Thêm mới thất bại, do tài sản không đủ số lượng", code = true });
+                        return Json(new { Message = "Thêm mới thất bại, do thiết bị không đủ số lượng", code = true });
                     }
 
                 }
@@ -534,7 +534,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                         NhatKyHoatDong nkhd = new NhatKyHoatDong();
                         nkhd.TenDangNhap = kh_insert.ChucDanh;
                         nkhd.HoatDong = "Sửa";
-                        nkhd.ChiTietHoatDong = "Vừa thêm số lượng thiết bị thiết bị vào phòng: " + pb.MaPhong + " - Mã thiết bị là: " + pb.MaTS;
+                        nkhd.ChiTietHoatDong = "Vừa thêm số lượng thiết bị vào phòng: " + pb.MaPhong + " - Mã thiết bị là: " + pb.MaTS;
                         nkhd.NgayHoatDong = DateTime.Now;
                         db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
                         db.SubmitChanges();
@@ -544,7 +544,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                     }
                     else
                     {
-                        return Json(new { Message = "Thêm mới thất bại, do tài sản không đủ số lượng", code = true });
+                        return Json(new { Message = "Thêm mới thất bại, do thiết bị không đủ số lượng", code = true });
                     }
                 }
                 catch (Exception ex)
@@ -563,7 +563,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
 
                 if (phanBo == null)
                 {
-                    return Json(new { success = false, message = "Không tìm thấy tài sản cần cập nhật." });
+                    return Json(new { success = false, message = "Không tìm thấy thiết bị cần cập nhật." });
                 }
 
                 if (pb.SoLuongHong < 0)

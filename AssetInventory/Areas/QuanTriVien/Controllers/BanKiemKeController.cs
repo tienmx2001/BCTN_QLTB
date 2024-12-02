@@ -109,11 +109,11 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 db.SubmitChanges();
 
                 
-                return Json(new { code = 1, msg = "Xóa thành công nha :3" }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = 1, msg = "Xóa thành công" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new { code = 0, msg = "Xóa hổng được, hình như có lỗi á :3 \nChi tiết lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = 0, msg = "Không thể sửa đã có lỗi \nChi tiết lỗi: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 

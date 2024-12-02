@@ -29,7 +29,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
 
         public ActionResult ChiTietPhieuKiemKe(int MaPhieu)
         {
-            if (Session["Admin"] == null || Session["Admin"].ToString() == "")
+            if (Session["Admin"] == null &&  Session["TruongBan"] == null)
             {
                 return RedirectToAction("DangNhap", "TrangChu");
             }
@@ -61,7 +61,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
 
         public ActionResult Invoice(int MaPhieu)
         {
-            if (Session["Admin"] == null || Session["Admin"].ToString() == "")
+            if (Session["Admin"] == null && Session["TruongBan"] == null)
             {
                 return RedirectToAction("DangNhap", "TrangChu");
             }
@@ -93,7 +93,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
 
         public ActionResult Invoice_2(int MaPhieu)
         {
-            if (Session["Admin"] == null || Session["Admin"].ToString() == "")
+            if (Session["Admin"] == null && Session["TruongBan"] == null)
             {
                 return RedirectToAction("DangNhap", "TrangChu");
             }
@@ -153,11 +153,11 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                                select s;
             if (check_phong.Count() <= 0)
             {
-                return Json(new { Message = "Không có Phòng này!!!", code = -1 });
+                return Json(new { Message = "Không có Phòng này", code = -1 });
             }
             else if (check_phanbo.Count() <= 0)
             {
-                return Json(new { Message = "Phòng này hiện chưa có tài sản, nên không thể kiểm kê!!!", code = -1 });
+                return Json(new { Message = "Phòng này hiện chưa có thiết bị, nên không thể kiểm kê", code = -1 });
             }
             else if (check_phieukiemke.Count() <= 0) // nếu chưa có 
             {
@@ -377,11 +377,11 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 nkhd.NgayHoatDong = DateTime.Now;
                 db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
                 db.SubmitChanges();
-                return Json(new { code = 1, msg = "Sửa thành công nha :3" }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = 1, msg = "Sửa thành công" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new { code = 0, msg = "Sửa hổng được, hình như có lỗi á :3" + ex.Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = 0, msg = "Không thể sửa đã có lỗi" + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 

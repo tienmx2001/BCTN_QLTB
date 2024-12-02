@@ -1,6 +1,7 @@
 ﻿using AssetInventory.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,16 +16,16 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
         // GET: QuanTriVien/ThongKe
         public ActionResult Index()
         {
-            if (Session["Admin"] == null || Session["Admin"].ToString() == "")
+          
+            // Chỉ chuyển hướng đến đăng nhập nếu không có session nào tồn tại
+            if (Session["Admin"] == null && Session["Nhanvien"] == null && Session["TruongBan"] == null)
             {
                 return RedirectToAction("DangNhap", "TrangChu");
             }
-            else
-            {
-                return View();
-
-            }
+            // Nếu có session hợp lệ, hiển thị trang chính
+            return View();
         }
+
 
 
         [HttpGet]

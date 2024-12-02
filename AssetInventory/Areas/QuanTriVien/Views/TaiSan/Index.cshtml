@@ -11,7 +11,7 @@
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item active"><a href="javascript: void(0);">Quản lý</a></li>
-                    <li class="breadcrumb-item ">Quản lý tài sản</li>
+                    <li class="breadcrumb-item ">Quản lý thiết bị</li>
                 </ol>
             </div>
         </div>
@@ -24,24 +24,24 @@
         <div class="card">
             <div class="card-body">
 
-                <h4 class="header-title">Quản lý tài sản</h4>
+                <h4 class="header-title">Quản lý thiết bị</h4>
                 <p class="text-muted font-14">
-                    Quản lý các tài sản hiện có ở trường.
+                    Quản lý các thiết bị hiện có ở trường.
                 </p>
                 <ul class="nav nav-tabs nav-bordered mb-3">
                     <li class="nav-item">
                         <a href="#taisan_view" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
-                            Tài sản
+                            Thiết bị
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#nhomtaisan_view" data-bs-toggle="tab" aria-expanded="true" class="nav-link">
-                            Nhóm tài sản
+                            Nhóm thiết bị
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#loaitaisan_view" data-bs-toggle="tab" aria-expanded="true" class="nav-link">
-                            Loại tài sản
+                            Loại thiết bị
                         </a>
                     </li>
                 </ul>
@@ -50,7 +50,7 @@
                     <div class="tab-pane show active" id="taisan_view">
                         <div class="row mb-2">
                             <div class="col-sm-4">
-                                <a id="ThemMoi_TaiSan" href="#" class="btn btn-primary mb-2"><i class="mdi mdi-plus-circle me-2"></i> Thêm mới tài sản</a>
+                                <a id="ThemMoi_TaiSan" href="#" class="btn btn-primary mb-2"><i class="mdi mdi-plus-circle me-2"></i> Thêm mới thiết bị</a>
                             </div>
                             <div class="col-sm-8">
                                 <div class="text-sm-end">
@@ -64,10 +64,10 @@
                             <table id="table_taisan" class="table dt-responsive nowrap w-100">
                                 <thead>
                                     <tr>
-                                        <th class="table-light">Mã tài sản</th>
-                                        <th class="table-light">Thuộc nhóm tài sản</th>
-                                        <th class="table-light">Thuộc loại tài sản</th>
-                                        <th class="table-light">Tên tài sản</th>
+                                        <th class="table-light">Mã thiết bị</th>
+                                        <th class="table-light">Tên thiết bị</th>
+                                        <th class="table-light">Thuộc nhóm thiết bị</th>
+                                        <th class="table-light">Thuộc loại thiết bị</th>
                                         <th class="table-light">Số lượng</th>
                                         <th class="table-light">Ghi chú</th>
                                         <th class="table-light">Ngày cập nhật cuối cùng</th>
@@ -84,7 +84,7 @@
                     <div class="tab-pane" id="nhomtaisan_view">
                         <div class="row mb-2">
                             <div class="col-sm-4">
-                                <a id="ThemMoi_NhomTaiSan" href="#" class="btn btn-success mb-2"><i class="mdi mdi-plus-circle me-2"></i> Thêm mới nhóm tài sản</a>
+                                <a id="ThemMoi_NhomTaiSan" href="#" class="btn btn-success mb-2"><i class="mdi mdi-plus-circle me-2"></i> Thêm mới nhóm thiết bị</a>
                             </div>
                             <div class="col-sm-8">
                                 <div class="text-sm-end">
@@ -98,9 +98,9 @@
                             <table id="table_nhomtaisan" class="table dt-responsive nowrap w-100">
                                 <thead>
                                     <tr>
-                                        <th class="table-light">Mã nhóm tài sản</th>
-                                        <th class="table-light">Thuộc loại tài sản</th>
-                                        <th class="table-light">Tên nhóm tài sản</th>
+                                        <th class="table-light">Mã nhóm thiết bị</th>
+                                        <th class="table-light">Thuộc loại thiết bị</th>
+                                        <th class="table-light">Tên nhóm thiết bị</th>
                                         <th class="table-light">Ghi chú</th>
                                         <th class="table-light">Ngày cập nhật cuối cùng</th>
                                         <th class="table-light">Hành động</th>
@@ -117,7 +117,7 @@
                     <div class="tab-pane" id="loaitaisan_view">
                         <div class="row mb-2">
                             <div class="col-sm-4">
-                                <a id="ThemMoi_LoaiTS" href="#" class="btn btn-secondary mb-2"><i class="mdi mdi-plus-circle me-2"></i> Thêm mới loại tài sản</a>
+                                <a id="ThemMoi_LoaiTS" href="#" class="btn btn-secondary mb-2"><i class="mdi mdi-plus-circle me-2"></i> Thêm mới loại thiết bị</a>
                             </div>
                             <div class="col-sm-8">
                                 <div class="text-sm-end">
@@ -131,8 +131,8 @@
                             <table id="table_loaitaisan" class="table dt-responsive nowrap w-100">
                                 <thead>
                                     <tr>
-                                        <th class="table-light">Mã loại tài sản</th>
-                                        <th class="table-light">Tên loại tài sản</th>
+                                        <th class="table-light">Mã loại thiết bị</th>
+                                        <th class="table-light">Tên loại thiết bị</th>
                                         <th class="table-light">Ghi chú</th>
                                         <th class="table-light">Ngày cập nhật cuối cùng</th>
                                         <th class="table-light">Hành động</th>
@@ -171,7 +171,7 @@
                 <div class="mb-3">
                     <input type="hidden" id="ID_Hidden" value="" />
                     <input type="hidden" id="CheDo" value="" />
-                    <label id="Label_Ten" class="form-label">Tên loại tài sản: </label>
+                    <label id="Label_Ten" class="form-label">Tên loại thiết bị: </label>
                     <input type="text" id="TenLoaiTS" class="form-control">
                 </div>
 
@@ -204,13 +204,13 @@
                 <div class="mb-3">
                     <input type="hidden" id="ID_Hidden" value="" />
                     <input type="hidden" id="CheDo" value="" />
-                    <label id="Label_Ten" class="form-label">Tên nhóm tài sản: </label>
+                    <label id="Label_Ten" class="form-label">Tên nhóm thiết bị: </label>
                     <input type="text" id="TenNTS" class="form-control">
                 </div>
 
 
                 <div class="mb-3">
-                    <label class="form-label">Loại tài sản: </label>
+                    <label class="form-label">Loại thiết bị: </label>
                     <select id="LoaiTaiSan" name="LoaiTaiSan" class="form-select">
                     </select>
                 </div>
@@ -236,7 +236,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="TieuDe_Modal_TaiSan">Thêm mới tài sản</h4>
+                <h4 class="modal-title" id="TieuDe_Modal_TaiSan">Thêm mới thiết bị</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
             <div class="modal-body">
@@ -244,12 +244,12 @@
                 <div class="mb-3">
                     <div class="row">
                         <div class="col-sm-6">
-                            <label for="tdn" class="form-label">Tên tài sản: </label>
+                            <label for="tdn" class="form-label">Tên thiết bị: </label>
                             <input type="text" id="TenTS" class="form-control">
                         </div>
 
                         <div class="col-sm-6">
-                            <label class="form-label">Nhóm tài sản: </label>
+                            <label class="form-label">Nhóm thiết bị: </label>
                             <select id="NhomTaiSan" name="NhomTaiSan" class="form-select">
                             </select>
                         </div>
@@ -315,17 +315,17 @@
                 <div class="mb-3">
                     <div class="row">
                         <div class="col-sm-4">
-                            <label class="form-label">Tên tài sản: </label>
+                            <label class="form-label">Tên thiết bị: </label>
                             <input type="text" id="TenTS_Xem" class="form-control" readonly="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label class="form-label">Thuộc nhóm tài sản: </label>
+                            <label class="form-label">Thuộc nhóm thiết bị: </label>
                             <input type="text" id="NhomTS_Xem" class="form-control" readonly="">
                         </div>
 
                         <div class="col-sm-4">
-                            <label class="form-label">Thuộc loại tài sản: </label>
+                            <label class="form-label">Thuộc loại thiết bị: </label>
                             <input type="text" id="LoaiTS_Xem" class="form-control" readonly="">
                         </div>
                     </div>
@@ -394,7 +394,7 @@
                 <div class="mb-3">
                     <input type="hidden" id="MaTS_Sua" class="form-control">
 
-                    <label class="form-label">Tên tài sản: </label>
+                    <label class="form-label">Tên thiết bị: </label>
                     <input type="text" id="TenTS_Sua" class="form-control">
                 </div>
                
@@ -460,7 +460,7 @@ $(document).ready(function () {
             $("#TenLoaiTS").val("");
             $("#GhiChu").val("");
             $("#CheDo").val("ThemMoi");
-            $('#TieuDe_Modal_LoaiTS').text("Thêm mới loại tài sản");
+            $('#TieuDe_Modal_LoaiTS').text("Thêm mới loại thiết bị");
             $("#btnSubmit_LoaiTS").text("Thêm mới");
             $("#add_new_loaitaisan").modal("show");
         })
@@ -470,7 +470,7 @@ $(document).ready(function () {
             $("#TenLoaiTS").val("");
             $("#GhiChu").val("");
             $("#CheDo").val("ChinhSua");
-            $('#TieuDe_Modal_LoaiTS').text("Chỉnh sửa loại tài sản");
+            $('#TieuDe_Modal_LoaiTS').text("Chỉnh sửa loại thiết bị");
             $("#btnSubmit_LoaiTS").text("Lưu");
             $.ajax({
             url: '@Url.Action("Select_LoaiTaiSan_By_MaLoaiTS", "TaiSan")',
@@ -544,7 +544,7 @@ $(document).ready(function () {
                 $("#TenNTS").val("");
                 $("#GhiChu").val("");
                 $("#CheDo").val("ThemMoi");
-                $('#TieuDe_Modal_NhomTaiSan').text("Thêm mới nhóm tài sản");
+             $('#TieuDe_Modal_NhomTaiSan').text("Thêm mới nhóm thiết bị");
                 $("#btnSubmit_LoaiTS").text("Thêm mới");
                 $("#add_new_nhom_ts").modal("show");
         })
@@ -554,7 +554,7 @@ $(document).ready(function () {
             $("#TenNTS").val("");
              $("#GhiChu_NTS").val("");
             $("#CheDo").val("ChinhSua");
-            $('#TieuDe_Modal_NhomTaiSan').text("Chỉnh sửa nhóm tài sản");
+             $('#TieuDe_Modal_NhomTaiSan').text("Chỉnh sửa nhóm thiết bị");
             $("#btnSubmit_NhomTS").text("Lưu");
             $.ajax({
             url: '@Url.Action("Select_NhomTaiSan_By_MaNhomTS", "TaiSan")',
@@ -636,7 +636,7 @@ $(document).ready(function () {
             $("#NuocSanXuat").val("");
             $("#GhiChu").val("");
             $("#CheDo").val("ThemMoi");
-            $("#TieuDe_Modal_TaiSan").text("Thêm mới tài sản");
+            $("#TieuDe_Modal_TaiSan").text("Thêm mới thiết bị");
             $("#add_new_ts").modal("show");
         })
 

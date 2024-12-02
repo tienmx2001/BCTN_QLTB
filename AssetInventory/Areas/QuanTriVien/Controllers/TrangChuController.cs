@@ -48,7 +48,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
             var sMK = collection["password"];
             if (String.IsNullOrEmpty(sTDN))
             {
-                ViewBag.ThongBao = "Chưa nhập tên đăng nhập kìa.";
+                ViewBag.ThongBao = "Chưa nhập tên đăng nhập.";
             }
             else if (String.IsNullOrEmpty(sMK))
             {
@@ -91,7 +91,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                     {
                         TenDangNhap = kh.ChucDanh,
                         HoatDong = "Đăng nhập",
-                        ChiTietHoatDong = kh.ChucDanh + " đăng nhập vào hệ thống thành công",
+                        ChiTietHoatDong = kh.ChucDanh + " Đăng nhập vào hệ thống thành công",
                         NgayHoatDong = DateTime.Now
                     };
                     db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
