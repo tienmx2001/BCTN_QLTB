@@ -175,7 +175,23 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                     db.SubmitChanges();
                     Insert_ChiTietPhieuKiem(kk.MaPhieu, kk.MaPhong);
 
-                    NguoiDung kh_insert = (NguoiDung)Session["Admin"];
+
+                    NguoiDung kh_insert = null;
+
+                    // Kiểm tra Session["Admin"]
+                    if (Session["Admin"] != null)
+                    {
+                        kh_insert = (NguoiDung)Session["Admin"];
+                    }
+                    // Nếu không có Admin, kiểm tra Session["TruongBan"]
+                    else if (Session["TruongBan"] != null)
+                    {
+                        kh_insert = (NguoiDung)Session["TruongBan"];
+                    }
+                    else if (Session["NhanVien"] != null)
+                    {
+                        kh_insert = (NguoiDung)Session["NhanVien"];
+                    }
                     NhatKyHoatDong nkhd = new NhatKyHoatDong();
                     nkhd.TenDangNhap = kh_insert.ChucDanh;
                     nkhd.HoatDong = "Thêm";
@@ -347,7 +363,23 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 chitiet_phieukiemke.FirstOrDefault().GhiChu = ctpkk.GhiChu;
                 db.SubmitChanges();
 
-                NguoiDung kh_insert = (NguoiDung)Session["Admin"];
+
+                NguoiDung kh_insert = null;
+
+                // Kiểm tra Session["Admin"]
+                if (Session["Admin"] != null)
+                {
+                    kh_insert = (NguoiDung)Session["Admin"];
+                }
+                // Nếu không có Admin, kiểm tra Session["TruongBan"]
+                else if (Session["TruongBan"] != null)
+                {
+                    kh_insert = (NguoiDung)Session["TruongBan"];
+                }
+                else if (Session["NhanVien"] != null)
+                {
+                    kh_insert = (NguoiDung)Session["NhanVien"];
+                }
                 NhatKyHoatDong nkhd = new NhatKyHoatDong();
                 nkhd.TenDangNhap = kh_insert.ChucDanh;
                 nkhd.HoatDong = "Sửa";
@@ -369,7 +401,23 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 cd.TrangThai = 1;
                 db.SubmitChanges();
 
-                NguoiDung kh_insert = (NguoiDung)Session["Admin"];
+
+                NguoiDung kh_insert = null;
+
+                // Kiểm tra Session["Admin"]
+                if (Session["Admin"] != null)
+                {
+                    kh_insert = (NguoiDung)Session["Admin"];
+                }
+                // Nếu không có Admin, kiểm tra Session["TruongBan"]
+                else if (Session["TruongBan"] != null)
+                {
+                    kh_insert = (NguoiDung)Session["TruongBan"];
+                }
+                else if (Session["NhanVien"] != null)
+                {
+                    kh_insert = (NguoiDung)Session["NhanVien"];
+                }
                 NhatKyHoatDong nkhd = new NhatKyHoatDong();
                 nkhd.TenDangNhap = kh_insert.ChucDanh;
                 nkhd.HoatDong = "Sửa";
