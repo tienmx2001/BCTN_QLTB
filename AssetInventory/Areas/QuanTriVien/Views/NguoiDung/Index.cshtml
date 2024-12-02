@@ -44,7 +44,7 @@
                     <div class="tab-pane show active" id="view_nd">
                         <div class="row mb-2">
                             <div class="col-sm-4">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#add_new_nguoidung" class="btn btn-primary mb-2"><i class="mdi mdi-plus-circle me-2"></i> Thêm mới người dùng</a>
+                                <a href="#" id="loadDonVi" data-bs-toggle="modal" data-bs-target="#add_new_nguoidung" class="btn btn-primary mb-2"><i class="mdi mdi-plus-circle me-2"></i> Thêm mới người dùng</a>
                             </div>
                             <div class="col-sm-8">
                                 <div class="text-sm-end">
@@ -396,6 +396,9 @@
 
 <script>
     $(document).ready(function () {
+        $("#loadDonVi").click(function () {
+            Load_Data_DSDonVi()
+        })
 
         var Table_ND = $('#table_nguoidung').DataTable({
             "ordering": false,
