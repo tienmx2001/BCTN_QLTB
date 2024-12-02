@@ -25,7 +25,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
 
                 if (phanBo == null)
                 {
-                    return Json(new { success = false, message = "Tài sản không tìm thấy trong phòng này." });
+                    return Json(new { success = false, message = "Thiết bị không tìm thấy trong phòng này." });
                 }
 
                 // Kiểm tra nếu có số lượng hỏng lớn hơn 0
@@ -54,11 +54,11 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
 
                     db.SubmitChanges(); // Lưu thay đổi vào cơ sở dữ liệu
 
-                    return Json(new { success = true, message = "Thanh lý tài sản thành công." });
+                    return Json(new { success = true, message = "Thanh lý thiết bị thành công." });
                 }
                 else
                 {
-                    return Json(new { success = false, message = "Không có tài sản hỏng để thanh lý." });
+                    return Json(new { success = false, message = "Không có thiết bị hỏng để thanh lý." });
                 }
             }
             catch (Exception ex)

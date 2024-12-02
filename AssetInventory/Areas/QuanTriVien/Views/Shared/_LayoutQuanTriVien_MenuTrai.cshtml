@@ -53,21 +53,12 @@
                 <li class="side-nav-item">
                     <a href="@Url.Action("Index", "TaiSan")" class="side-nav-link">
                         <i class="mdi mdi-desktop-classic"></i>
-                        <span>Quản lý tài sản</span>
+                        <span>Quản lý thiết bị</span>
                     </a>
                 </li>
             }
 
-            @if (Session["Admin"] != null || Session["TruongBan"] != null)
-            {
-                <li class="side-nav-title side-nav-item"><hr /></li>
-                <li class="side-nav-item">
-                    <a href="@Url.Action("Index", "ThanhLy")" class="side-nav-link">
-                        <i class="dripicons-suitcase"></i>
-                        <span>Thanh lý tài sản</span>
-                    </a>
-                </li>
-            }
+
 
             <!-- Phân bố tài sản -->
             @if (Session["Admin"] != null || Session["Nhanvien"] != null || Session["TruongBan"] != null)
@@ -76,13 +67,13 @@
                 <li class="side-nav-item">
                     <a href="@Url.Action("PhanBoThietBi", "TaiSan")" class="side-nav-link">
                         <i class="dripicons-suitcase"></i>
-                        <span>Phân bố tài sản</span>
+                        <span>Phân bố thiết bị</span>
                     </a>
                 </li>
             }
 
             <!-- Kiểm kê -->
-            @if (Session["Admin"] != null || Session["TruongBan"] != null)
+            @if (Session["Admin"] != null || Session["TruongBan"] != null )
             {
                 <li class="side-nav-title side-nav-item"><hr /></li>
                 <li class="side-nav-item">
@@ -93,8 +84,18 @@
                 </li>
             }
 
-            <!-- Kiểm kê -->
-            @if (Session["Admin"] != null || Session["TruongBan"] != null)
+            @if (Session["Admin"] != null || Session["TruongBan"] != null || Session["Nhanvien"] != null)
+            {
+                <li class="side-nav-title side-nav-item"><hr /></li>
+                <li class="side-nav-item">
+                    <a href="@Url.Action("Index", "ThanhLy")" class="side-nav-link">
+                        <i class="dripicons-suitcase"></i>
+                        <span>Thanh lý thiết bị</span>
+                    </a>
+                </li>
+            }
+
+            @if (Session["Admin"] != null || Session["TruongBan"] != null || Session["Nhanvien"] != null)
             {
                 <li class="side-nav-title side-nav-item"><hr /></li>
                 <li class="side-nav-item">

@@ -47,7 +47,7 @@ namespace AssetInventory.Controllers
             var sMK = collection["MatKhau"];
             if (String.IsNullOrEmpty(sTDN))
             {
-                ViewBag.ThongBao = "Chưa nhập tên đăng nhập kìa.";
+                ViewBag.ThongBao = "Chưa nhập tên đăng nhập.";
             }
             else if (String.IsNullOrEmpty(sMK))
             {
@@ -64,7 +64,7 @@ namespace AssetInventory.Controllers
                 }
                 else
                 {
-                    ViewBag.ThongBao = "Tên đăng nhập hoặc mật khẩu hông đúng.";
+                    ViewBag.ThongBao = "Tên đăng nhập hoặc mật khẩu không đúng.";
                 }
             }
 
