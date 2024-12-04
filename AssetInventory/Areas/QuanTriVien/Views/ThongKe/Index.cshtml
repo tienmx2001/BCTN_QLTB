@@ -108,13 +108,13 @@ function LoadData(Name_DataTable) {
 
             $.each(data.data, function (i, item) {
                 Name_DataTable.row.add([
-                    '<td><a class="text-body fw-bold">#' + item.MaTS + '</a></td>',
-                    '<h4><span class="badge bg-success text-light">' + item.TenTS + '</span></h4>',
+                    '<td><a class="text-body fw-bold">#' + item.MaNhomTS + '</a></td>',
+                    '<h4><span class="badge bg-success text-light">' + item.TenNhomTS + '</span></h4>',
                     item.SoLanDuocPhanBo,
                     item.SoLanDuocKiemKe
                 ]).draw(false);
 
-                labels.push(item.TenTS);
+                labels.push(item.TenNhomTS);
                 phanBoCounts.push(item.SoLanDuocPhanBo);
                 kiemKeCounts.push(item.SoLanDuocKiemKe);
             });
@@ -172,7 +172,7 @@ function LoadData(Name_DataTable) {
                     x: {
                         title: {
                             display: true,
-                            text: 'Tài sản'
+                            text: 'Nhóm Tài sản'
                         }
                     },
                     y: {

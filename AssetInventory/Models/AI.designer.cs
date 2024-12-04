@@ -832,6 +832,7 @@ namespace AssetInventory.Models
 		private System.Nullable<System.DateTime> _NgayTao;
 		
 		private int _MaTS;
+		private int _MaNhomTS;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1217,6 +1218,25 @@ namespace AssetInventory.Models
                 }
             }
         }
+
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_MaNhomTS", DbType = "Int NOT NULL")]
+        public int MaNhomTS
+        {
+            get
+            {
+                return this._MaNhomTS;
+            }
+            set
+            {
+                if ((this._MaNhomTS != value))
+                {
+                    this.SendPropertyChanging();
+                    this._MaNhomTS = value;
+                    this.SendPropertyChanged("MaNhomTS");
+                }
+            }
+        }
+
 
         public event PropertyChangingEventHandler PropertyChanging;
 		
@@ -2586,6 +2606,7 @@ namespace AssetInventory.Models
 		private System.DateTime _NgayTao;
 
         private int _SoLuongHong;
+        private int _MaNhomTS;
 
         #region Extensibility Method Definitions
         partial void OnLoaded();
@@ -2817,6 +2838,24 @@ namespace AssetInventory.Models
                 }
             }
         }
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_MaNhomTS", DbType = "Int NOT NULL")]
+        public int MaNhomTS
+        {
+            get
+            {
+                return this._MaNhomTS;
+            }
+            set
+            {
+                if ((this._MaNhomTS != value))
+                {
+                    this.SendPropertyChanging();
+                    this._MaNhomTS = value;
+                    this.SendPropertyChanged("MaNhomTS");
+                }
+            }
+        }
+
 
         public event PropertyChangingEventHandler PropertyChanging;
 		

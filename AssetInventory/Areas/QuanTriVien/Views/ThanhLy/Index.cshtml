@@ -131,7 +131,9 @@
             </div>
         </div>
         <script type="text/javascript">
-    $(document).ready(function () {
+            $(document).ready(function () {
+
+
         Load_Data_DSPhong();
         var Table_Info_TaiSan_Theo_Phong = $('#table_info_taisan_phong').DataTable({
             bFilter: true,
@@ -152,14 +154,12 @@
             const assetName = $(this).data('name');
             const damagedQuantity = $(this).data('damaged');
             const roomId = $(this).data('room');
-
-
+                                         
             $('#damagedAssetName').val(assetName);
             $('#newDamagedQuantity').val(damagedQuantity);
             $('#saveDamagedQuantity').data('id', assetId);
             $('#saveDamagedQuantity').data('room', roomId);
 
-            $('#updateDamagedModal').modal('show');
         });
 
 
@@ -177,7 +177,7 @@
 
             }
         });
-    });
+
             function Load_Data_ThanhLy(Name_DataTable) {
                 $.ajax({
                     url: '@Url.Action("Get_ThanhLy_Data", "ThanhLy")',
@@ -207,12 +207,12 @@
                 });
             }
 
-         function Load_Data_PhanBo_Theo_MaPhong(Name_DataTable, MaPhong) {
-    var Get_DSPB_ByMaPhong = Get_Data_PhanBo_By_MaPhong(MaPhong);
-    Name_DataTable.clear().draw();
+            function Load_Data_PhanBo_Theo_MaPhong(Name_DataTable, MaPhong) {
+            var Get_DSPB_ByMaPhong = Get_Data_PhanBo_By_MaPhong(MaPhong);
+                Name_DataTable.clear().draw();
 
-    if (Get_DSPB_ByMaPhong != "Error_Get_Data_PhanBo_By_MaPhong") {
-        $.each(Get_DSPB_ByMaPhong.data, function (i, item) {
+            if (Get_DSPB_ByMaPhong != "Error_Get_Data_PhanBo_By_MaPhong") {
+                $.each(Get_DSPB_ByMaPhong.data, function (i, item) {
 
             console.log('MaPhong trong Load_Data_PhanBo_Theo_MaPhong:', MaPhong);
 
@@ -231,7 +231,8 @@
         });
 
         // Xử lý sự kiện khi click vào nút "Thanh lý"
-        $('.btn-update-damaged').on('click', function () {
+                $('.btn-update-damaged').on('click', function () {
+                  
             var MaTS = $(this).data('id');
             var TenTS = $(this).data('name');
             var SoLuongHong = $(this).data('damaged');
@@ -245,6 +246,7 @@
                     if (response.success) {
                         alert('Thanh lý thiết bị ' + TenTS + ' thành công!');
                         Load_Data_PhanBo_Theo_MaPhong(Name_DataTable, MaPhong);
+                        Load_Data_ThanhLy(Table_ThanhLy)
                     } else {
                         alert('Lỗi: ' + response.message);
                     }
@@ -363,5 +365,6 @@
 		    }
 	    });
         return result;
-    }
+                }
+            });
         </script>
