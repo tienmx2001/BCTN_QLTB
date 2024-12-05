@@ -589,6 +589,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                         pb.MaND = kh_insert.MaND;
                         pb.NgayTao = DateTime.Now;
                         pb.NgayCapNhat = DateTime.Now;
+                        pb.MaNhomTS = ts.MaNhomTS;
                         if (string.IsNullOrEmpty(pb.GhiChu))
                         {
                             pb.GhiChu = "Không có";
