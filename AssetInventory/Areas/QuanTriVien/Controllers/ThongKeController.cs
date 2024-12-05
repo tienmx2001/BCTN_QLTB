@@ -31,7 +31,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
         [HttpGet]
         public JsonResult GetDataAnalyst()
         {
-            var listTaiSan = from ts in db.TaiSans
+            var listTaiSan = from ts in db.NhomTaiSans
                              select ts;
 
 
@@ -42,17 +42,17 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
             foreach (var ts in listTaiSan)
             {
                 var phanbo = (from pb in db.PhanBos
-                              where pb.MaTS == ts.MaTS
+                              where pb.MaNhomTS == ts.MaNhomTS
                               select pb).Count();
 
                 var kiemeke = (from ctpkk in db.ChiTietPhieuKiemKes
-                               where ctpkk.MaTS == ts.MaTS
+                               where ctpkk.MaNhomTS == ts.MaNhomTS
                                select ctpkk).Count();
-
+      
                 taisanObject.Add(new Dictionary<string, object>
                 {
-                    { "MaTS", ts.MaTS },
-                    { "TenTS", ts.TenTS },
+                    { "MaNhomTS", ts.MaNhomTS },
+                    { "TenNhomTS", ts.TenNhomTS },
                     { "SoLanDuocPhanBo", phanbo },
                     { "SoLanDuocKiemKe", kiemeke }
                 });

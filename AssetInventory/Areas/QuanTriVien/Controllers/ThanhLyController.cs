@@ -82,6 +82,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                                   join pb in db.PhanBos on tl.MaPB equals pb.MaPB
                                   join ts in db.TaiSans on pb.MaTS equals ts.MaTS
                                   join p in db.Phongs on pb.MaPhong equals p.MaPhong
+                                  orderby tl.NgayTao descending
                                   select new
                                   {
                                       tl.MaTL,
