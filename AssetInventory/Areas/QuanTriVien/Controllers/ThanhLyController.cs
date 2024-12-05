@@ -36,7 +36,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                     {
                         MaPB = phanBo.MaPB,
                         SoLuongThanhLy = phanBo.SoLuongHong,
-                        GhiChu = "Thanh lý tài sản: " + phanBo.MaTS,
+                        GhiChu = "Thanh lý thiết bị: " + phanBo.MaTS,
                         NgayCapNhat = DateTime.Now,
                         NgayTao = DateTime.Now
                     };
