@@ -496,9 +496,10 @@ namespace AssetInventory.Models
 		private System.DateTime _NgayCapNhat;
 		
 		private System.DateTime _NgayTao;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
+        private string _HinhAnh;
+
+        #region Extensibility Method Definitions
+        partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
     partial void OnMaTSChanging(int value);
@@ -771,8 +772,25 @@ namespace AssetInventory.Models
 				}
 			}
 		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_HinhAnh", DbType = "NVarChar(300)")]
+        public string HinhAnh
+        {
+            get
+            {
+                return this._HinhAnh;
+            }
+            set
+            {
+                if ((this._HinhAnh != value))
+                {
+                    this.SendPropertyChanging();
+                    this._HinhAnh = value;
+                    this.SendPropertyChanged("HinhAnh");
+                }
+            }
+        }
+
+        public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
 		
@@ -2278,7 +2296,7 @@ namespace AssetInventory.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenDangNhap", DbType="VarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenDangNhap", DbType="NVarChar(50)")]
 		public string TenDangNhap
 		{
 			get

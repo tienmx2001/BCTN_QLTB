@@ -433,6 +433,7 @@
     <Content Include="Content\Hinh\PhongMay.jpg" />
     <Content Include="Content\Hinh\PhongMay2.jpg" />
     <Content Include="Content\Hinh\tdmu-icon-ldpi.png" />
+    <Content Include="Content\Hinh\tdmu.jpg" />
     <Content Include="Content\Hinh\tn2-8506.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

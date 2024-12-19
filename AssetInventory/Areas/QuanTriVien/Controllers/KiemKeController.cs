@@ -320,7 +320,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
         public JsonResult Select_ChiTietPhieuKiemKe(int MaPhieu)
         {
             var get_data = from s in db.ChiTietPhieuKiemKes.OrderByDescending(a => a.TenNhomTS)
-                           where s.MaPhieu == MaPhieu
+                           where s.MaPhieu == MaPhieu && s.SoLuong>=1
                            select new
                            {
                                s.MaCTPKK,

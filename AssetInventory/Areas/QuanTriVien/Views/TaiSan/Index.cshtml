@@ -65,6 +65,7 @@
                                 <thead>
                                     <tr>
                                         <th class="table-light">Mã thiết bị</th>
+                                        <th class="table-light">Hình ảnh</th>
                                         <th class="table-light">Tên thiết bị</th>
                                         <th class="table-light">Thuộc nhóm thiết bị</th>
                                         <th class="table-light">Thuộc loại thiết bị</th>
@@ -270,6 +271,7 @@
                     </div>
                 </div>
 
+
                 <div class="mb-3">
                     <div class="row">
                         <div class="col-sm-4">
@@ -278,7 +280,7 @@
                         </div>
                         <div class="col-sm-4">
                             <label class="form-label">Năm sản xuất: </label>
-                            <input type="number" id="NamSanXuat" class="form-control">
+                            <input type="date" id="NamSanXuat" min="1" class="form-control">
                         </div>
                         <div class="col-sm-4">
                             <label class="form-label">Nước sản xuất: </label>
@@ -289,6 +291,11 @@
                 <div class="mb-3">
                     <label for="example-textarea" class="form-label">Ghi chú</label>
                     <textarea class="form-control" id="GhiChu_TS" name="GhiChu_TS" rows="5"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="HinhAnh" class="form-label">Hình ảnh:</label>
+                    <input type="file" id="HinhAnh" name="HinhAnh" class="form-control" accept="image/*">
                 </div>
             </div>
             <div class="modal-footer">
@@ -357,7 +364,7 @@
                         </div>
                         <div class="col-sm-4">
                             <label class="form-label">Năm sản xuất: </label>
-                            <input type="text" id="NamSanXuat_Xem" class="form-control" readonly="">
+                            <input type="date" id="NamSanXuat_Xem" class="form-control" readonly="">
                         </div>
                         <div class="col-sm-4">
                             <label class="form-label">Nước sản xuất: </label>
@@ -450,7 +457,7 @@ $(document).ready(function () {
             paging: true,
         });
 
-        
+
         LoadData_TaiSan(Table_TS);
         LoadData_NhomTaiSan(Table_NTS);
         LoadData_LoaiTaiSan(Table_LTS);
@@ -637,32 +644,61 @@ $(document).ready(function () {
             $("#GhiChu").val("");
             $("#CheDo").val("ThemMoi");
             $("#TieuDe_Modal_TaiSan").text("Thêm mới thiết bị");
+            $("#HinhAnh").val("");
             Load_Data_DS_LTS_NTS()
             $("#add_new_ts").modal("show");
         })
 
+$(document).on('click', "button[id='btnThemMoi_TaiSan']", function () {
+    // Collect input values
+    var TenTS = $("#TenTS").val();
+    var GiaTri = $("#GiaTri").val();
+    var SoLuongChinh = $("#SoLuong").val();
+    var HangSanXuat = $("#HangSanXuat").val();
+    var NamSanXuat = $("#NamSanXuat").val();
+    var NuocSanXuat = $("#NuocSanXuat").val();
+    var GhiChu = $("#GhiChu").val();
+    var MaNhomTS = $("#NhomTaiSan").val();
 
-        $(document).on('click', "button[id='btnThemMoi_TaiSan']", function () {
-            var TenTS = $("#TenTS").val();
-            var GiaTri = $("#GiaTri").val();
-            var SoLuong = $("#SoLuong").val();
-            var HangSanXuat = $("#HangSanXuat").val();
-            var NamSanXuat = $("#NamSanXuat").val();
-            var NuocSanXuat = $("#NuocSanXuat").val();
-            var GhiChu = $("#GhiChu").val();
-            var MaNhomTS = $("#NhomTaiSan").val();
-            var themmoi = Them_TS(MaNhomTS, TenTS, GiaTri, SoLuong, HangSanXuat, NamSanXuat, NuocSanXuat, GhiChu);
-            if (themmoi == true) {
-                setTimeout(function () {
-                    LoadData_TaiSan(Table_TS);
-                    ThongBao("Thành công", "Thêm mới thành công");
-                }, 100);
+    // Use FormData to include the image file
+    var formData = new FormData();
+    formData.append("TenTS", TenTS);
+    formData.append("GiaTri", GiaTri);
+    formData.append("SoLuongChinh", SoLuongChinh);
+    formData.append("HangSanXuat", HangSanXuat);
+    formData.append("NamSanXuat", NamSanXuat);
+    formData.append("NuocSanXuat", NuocSanXuat);
+    formData.append("GhiChu", GhiChu);
+    formData.append("MaNhomTS", MaNhomTS);
+
+    // Append the file to FormData
+    var fileInput = document.getElementById("HinhAnh");
+    if (fileInput.files.length > 0) {
+        formData.append("fFileUpLoad", fileInput.files[0]);
+    }
+
+    // Send AJAX request
+    $.ajax({
+        url: "/TaiSan/Insert_TaiSan",
+        type: "POST",
+        data: formData,
+        processData: false, // Prevent jQuery from processing data
+        contentType: false, // Prevent jQuery from setting content type
+        success: function (response) {
+            if (response.code) {
+                LoadData_TaiSan(Table_TS);
+                ThongBao("Thành công", response.Message);
             } else {
-                ThongBao("Thất bại", "Thêm mới không thành công !!");
+                ThongBao("Thất bại", response.Message);
             }
+        },
+        error: function () {
+            ThongBao("Thất bại", "Thêm mới không thành công !!");
+        }
+    });
+});
 
 
-        })
 
 
         $(document).on('click', "a[name='Xoa_TS']", function () {
@@ -687,10 +723,10 @@ $(document).ready(function () {
         $(document).on('click', "a[name='Xem_TS']", function () {
             var ID_TS = $(this).attr('id');
             $.ajax({
-            url: '@Url.Action("Select_TaiSan_By_MaTS", "TaiSan")',
-            type: 'get',
-            data: { MaTS: ID_TS},
-            success: function (data) {
+                url: '@Url.Action("Select_TaiSan_By_MaTS", "TaiSan")',
+                type: 'get',
+                data: { MaTS: ID_TS },
+                success: function (data) {
                     if (data.code == true) {
                         $('#TenTS_Xem').val(data.data[0].TenTS);
                         $('#NhomTS_Xem').val(data.data[0].TenNhomTS);
@@ -699,20 +735,37 @@ $(document).ready(function () {
                         $('#SoLuong_Xem').val(data.data[0].SoLuong);
                         $('#GiaTri_Xem').val(data.data[0].GiaTri);
                         $('#HangSanXuat_Xem').val(data.data[0].HangSanXuat);
-                        $('#NamSanXuat_Xem').val(data.data[0].NamSanXuat);
+
+                        // Xử lý NamSanXuat
+                        let rawDate = data.data[0].NamSanXuat;
+                        if (rawDate && rawDate.startsWith('/Date(')) {
+                            let timestamp = parseInt(rawDate.match(/\d+/)[0], 10);
+                            let date = new Date(timestamp); // Chuyển đổi sang đối tượng Date
+                            if (!isNaN(date)) {
+                                let formattedDate = date.toISOString().split('T')[0]; // Định dạng YYYY-MM-DD
+                                $('#NamSanXuat_Xem').val(formattedDate); // Gán giá trị
+                            } else {
+                                console.warn('NamSanXuat không hợp lệ:', rawDate);
+                                $('#NamSanXuat_Xem').val(''); // Xóa giá trị nếu không hợp lệ
+                            }
+                        } else {
+                            $('#NamSanXuat_Xem').val(''); // Làm trống nếu không có dữ liệu
+                        }
+
                         $('#NuocSanXuat_Xem').val(data.data[0].NuocSanXuat);
                         $('#GhiChu_Xem_TS').val(data.data[0].GhiChu);
 
-
-
                         $("#xem_taisan").modal("show");
-
                     } else {
-                     alert(data.msg);
+                        alert(data.msg);
                     }
                 }
             });
-        })
+        });
+
+
+
+
 
         $(document).on('click', "a[name='Sua_TS']", function () {
             var ID_TS = $(this).attr('id');
@@ -873,10 +926,12 @@ function LoadData_TaiSan(Name_DataTable) {
 
                 Name_DataTable.row.add([
                     '<h4><span class="badge badge-primary-lighten rounded-pill">' + item.MaTS + '</span></h4>',
+                    '<img src="/Content/Hinh/' + item.HinhAnh + '" alt="Image" style="width: 80px;" />',
                     '<h4><span class="badge bg-success text-light">' + item.TenTS + '</span></h4>',
                     '<h4><span class="badge bg-danger text-light">' + item.TenNhomTS + '</span></h4>',
                     '<h4><span class="badge bg-dark text-light">' + item.TenLoaiTS + '</span></h4>',
                     '<h4><span class="badge bg-light text-dark">' + item.SoLuong + '</span></h4>',
+
                     item.GhiChu,
                     ToJavaScriptDate(item.NgayCapNhat),
                     '<a name = "Xem_TS" id = "' + item.MaTS + '" href="javascript:void(0)" class="action-icon"> <i class="mdi mdi-eye"></i></a><a name = "Sua_TS" id = "' + item.MaTS + '" href="javascript:void(0)" class="action-icon"> <i class="mdi mdi-pencil"></i></a><a name = "Xoa_TS" id = "' + item.MaTS + '" href="javascript:void(0)" class="action-icon"> <i class="mdi mdi-delete"></i></a>'
@@ -949,7 +1004,7 @@ function Them_LoaiTaiSan(TenLoaiTS, GhiChu) {
     }
 
 
-function Them_TS(MaNhomTS, TenTS, GiaTri, SoLuongChinh, HangSanXuat, NamSanXuat, NuocSanXuat, GhiChu) {
+    function Them_TS(MaNhomTS, TenTS, GiaTri, SoLuongChinh, HangSanXuat, NamSanXuat, NuocSanXuat, GhiChu, HinhAnh) {
     var rt = false;
     $.ajax({
         url: '@Url.Action("Insert_TaiSan", "TaiSan")',
@@ -964,7 +1019,8 @@ function Them_TS(MaNhomTS, TenTS, GiaTri, SoLuongChinh, HangSanXuat, NamSanXuat,
             HangSanXuat: HangSanXuat,
             NamSanXuat: NamSanXuat,
             NuocSanXuat: NuocSanXuat,
-            GhiChu: GhiChu
+            GhiChu: GhiChu,
+            HinhAnh: HinhAnh
         }),
         async: false,
         cache: false,

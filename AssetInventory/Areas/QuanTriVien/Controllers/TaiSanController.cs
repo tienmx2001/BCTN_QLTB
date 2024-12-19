@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using AssetInventory.Models;
 
 namespace AssetInventory.Areas.QuanTriVien.Controllers
@@ -61,7 +63,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
             var get_data = from s in db.TaiSans.OrderByDescending(a => a.MaTS)
                            join nts in db.NhomTaiSans on s.MaNhomTS equals nts.MaNhomTS
                            join lts in db.LoaiTaiSans on nts.MaLoaiTS equals lts.MaLoaiTS
-                           select new { s.MaTS, s.MaNhomTS, nts.TenNhomTS, lts.MaLoaiTS, lts.TenLoaiTS, s.TenTS, s.GiaTri, s.SoLuongChinh, s.SoLuong, s.HangSanXuat, s.NamSanXuat, s.NuocSanXuat, s.GhiChu, s.NgayCapNhat };
+                           select new { s.MaTS, s.MaNhomTS, nts.TenNhomTS, lts.MaLoaiTS,s.HinhAnh ,lts.TenLoaiTS, s.TenTS, s.GiaTri, s.SoLuongChinh, s.SoLuong, s.HangSanXuat, s.NamSanXuat, s.NuocSanXuat, s.GhiChu, s.NgayCapNhat };
             return Json(new { data = get_data }, JsonRequestBehavior.AllowGet);
         }
 
@@ -116,37 +118,56 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
 
 
         [HttpPost]
-        public JsonResult Insert_TaiSan(TaiSan ts)
+        public JsonResult Insert_TaiSan(TaiSan ts, HttpPostedFileBase fFileUpLoad)
         {
-            var check_taisan = from s in db.TaiSans.OrderByDescending(a => a.MaTS)
-                              where s.TenTS == ts.TenTS
-                              select s;
-            if (check_taisan.Count() >= 1)
+            if (fFileUpLoad != null)
             {
-                return Json(new { Message = "Thêm mới thiết bị thất bại, tên thiết bị này đã tồn tại", code = false });
+                var sFileName = Path.GetFileName(fFileUpLoad.FileName);
+                var path = Path.Combine(Server.MapPath("~/Content/Hinh"), sFileName);
+
+                if (!System.IO.File.Exists(path))
+                {
+                    fFileUpLoad.SaveAs(path);
+                }
+
+                ts.HinhAnh = sFileName;
             }
+            else
+            {
+                ts.HinhAnh = "default.jpg";
+            }
+
+            var check_taisan = db.TaiSans.OrderByDescending(a => a.MaTS)
+                                          .FirstOrDefault(s => s.TenTS == ts.TenTS);
+            if (check_taisan != null)
+            {
+                return Json(new { Message = "Thêm mới tài sản thất bại, tên tài sản này đã tồn tại", code = false });
+            }
+
             if (string.IsNullOrEmpty(ts.GhiChu))
             {
                 ts.GhiChu = "Không có";
             }
+
+            // Update the fields correctly here
             ts.SoLuong = ts.SoLuongChinh;
             ts.NgayTao = DateTime.Now;
             ts.NgayCapNhat = DateTime.Now;
+
             db.TaiSans.InsertOnSubmit(ts);
             db.SubmitChanges();
 
             NguoiDung kh_insert = null;
 
-            // Kiểm tra Session["Admin"]
             if (Session["Admin"] != null)
             {
                 kh_insert = (NguoiDung)Session["Admin"];
             }
-            // Nếu không có Admin, kiểm tra Session["TruongBan"]
             else if (Session["TruongBan"] != null)
             {
                 kh_insert = (NguoiDung)Session["TruongBan"];
             }
+
             NhatKyHoatDong nkhd = new NhatKyHoatDong();
             nkhd.TenDangNhap = kh_insert.ChucDanh;
             nkhd.HoatDong = "Thêm";
@@ -154,8 +175,10 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
             nkhd.NgayHoatDong = DateTime.Now;
             db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
             db.SubmitChanges();
+
             return Json(new { Message = "Thêm mới thành công", code = true });
         }
+
 
 
         [HttpPost]
