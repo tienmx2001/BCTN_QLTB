@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -61,7 +62,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
             var get_data = from s in db.TaiSans.OrderByDescending(a => a.MaTS)
                            join nts in db.NhomTaiSans on s.MaNhomTS equals nts.MaNhomTS
                            join lts in db.LoaiTaiSans on nts.MaLoaiTS equals lts.MaLoaiTS
-                           select new { s.MaTS, s.MaNhomTS, nts.TenNhomTS, lts.MaLoaiTS, lts.TenLoaiTS, s.TenTS, s.GiaTri, s.SoLuongChinh, s.SoLuong, s.HangSanXuat, s.NamSanXuat, s.NuocSanXuat, s.GhiChu, s.NgayCapNhat };
+                           select new { s.MaTS, s.MaNhomTS, nts.TenNhomTS, lts.MaLoaiTS, lts.TenLoaiTS, s.TenTS,s.AnhTS, s.GiaTri, s.SoLuongChinh, s.SoLuong, s.HangSanXuat, s.NamSanXuat, s.NuocSanXuat, s.GhiChu, s.NgayCapNhat };
             return Json(new { data = get_data }, JsonRequestBehavior.AllowGet);
         }
 
@@ -116,7 +117,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
 
 
         [HttpPost]
-        public JsonResult Insert_TaiSan(TaiSan ts)
+        public JsonResult Insert_TaiSan(TaiSan ts, HttpPostedFileBase AnhTS)
         {
             var check_taisan = from s in db.TaiSans.OrderByDescending(a => a.MaTS)
                               where s.TenTS == ts.TenTS
@@ -128,6 +129,27 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
             if (string.IsNullOrEmpty(ts.GhiChu))
             {
                 ts.GhiChu = "Không có";
+            }
+            if (AnhTS != null && AnhTS.ContentLength > 0)
+            {
+                // Tạo tên ảnh duy nhất để tránh trùng lặp
+                string fileName = Path.GetFileName(AnhTS.FileName);
+
+                // Đảm bảo thư mục lưu ảnh đã tồn tại trên server, nếu chưa thì tạo mới
+                string directoryPath = Server.MapPath("~/Content/Hinh/");
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                // Tạo đường dẫn đầy đủ để lưu ảnh vào thư mục trên server
+                string filePath = Path.Combine(directoryPath, fileName);
+
+                // Lưu ảnh vào thư mục trên server
+                AnhTS.SaveAs(filePath);
+
+                // Lưu đường dẫn ảnh vào thuộc tính AnhTaiSan của đối tượng TaiSan (relative path)
+                ts.AnhTS = "/Content/Hinh/" + fileName; 
             }
             ts.SoLuong = ts.SoLuongChinh;
             ts.NgayTao = DateTime.Now;
@@ -150,7 +172,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
             NhatKyHoatDong nkhd = new NhatKyHoatDong();
             nkhd.TenDangNhap = kh_insert.ChucDanh;
             nkhd.HoatDong = "Thêm";
-            nkhd.ChiTietHoatDong = "Thêm mới tài sản";
+            nkhd.ChiTietHoatDong = "Thêm mới thiết bị";
             nkhd.NgayHoatDong = DateTime.Now;
             db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
             db.SubmitChanges();
@@ -192,7 +214,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
             NhatKyHoatDong nkhd = new NhatKyHoatDong();
             nkhd.TenDangNhap = kh_insert.ChucDanh;
             nkhd.HoatDong = "Thêm";
-            nkhd.ChiTietHoatDong = "Thêm mới nhóm tài sản";
+            nkhd.ChiTietHoatDong = "Thêm mới nhóm thiết bị";
             nkhd.NgayHoatDong = DateTime.Now;
             db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
             db.SubmitChanges();
@@ -234,7 +256,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
             NhatKyHoatDong nkhd = new NhatKyHoatDong();
             nkhd.TenDangNhap = kh_insert.ChucDanh;
             nkhd.HoatDong = "Thêm";
-            nkhd.ChiTietHoatDong = "Thêm mới loại tài sản";
+            nkhd.ChiTietHoatDong = "Thêm mới loại thiết bị";
             nkhd.NgayHoatDong = DateTime.Now;
             db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
             db.SubmitChanges();
@@ -282,7 +304,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 NhatKyHoatDong nkhd = new NhatKyHoatDong();
                 nkhd.TenDangNhap = kh_insert.ChucDanh;
                 nkhd.HoatDong = "Sửa";
-                nkhd.ChiTietHoatDong = "Sửa tài sản có ID là: " + ts.MaTS;
+                nkhd.ChiTietHoatDong = "Sửa thiết bị có ID là: " + ts.MaTS;
                 nkhd.NgayHoatDong = DateTime.Now;
                 db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
                 db.SubmitChanges();
@@ -329,7 +351,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 NhatKyHoatDong nkhd = new NhatKyHoatDong();
                 nkhd.TenDangNhap = kh_insert.ChucDanh;
                 nkhd.HoatDong = "Sửa";
-                nkhd.ChiTietHoatDong = "Sửa nhóm tài sản có ID là: " + nts.MaNhomTS;
+                nkhd.ChiTietHoatDong = "Sửa nhóm thiết bị có ID là: " + nts.MaNhomTS;
                 nkhd.NgayHoatDong = DateTime.Now;
                 db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
                 db.SubmitChanges();
@@ -375,7 +397,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 NhatKyHoatDong nkhd = new NhatKyHoatDong();
                 nkhd.TenDangNhap = kh_insert.ChucDanh;
                 nkhd.HoatDong = "Sửa";
-                nkhd.ChiTietHoatDong = "Sửa loại tài sản có ID là: " + lts.MaLoaiTS;
+                nkhd.ChiTietHoatDong = "Sửa loại thiết bị có ID là: " + lts.MaLoaiTS;
                 nkhd.NgayHoatDong = DateTime.Now;
                 db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
                 db.SubmitChanges();
@@ -412,7 +434,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 NhatKyHoatDong nkhd = new NhatKyHoatDong();
                 nkhd.TenDangNhap = kh_insert.ChucDanh;
                 nkhd.HoatDong = "Xóa";
-                nkhd.ChiTietHoatDong = "Xóa tài sản có ID là: " + ts.MaTS;
+                nkhd.ChiTietHoatDong = "Xóa thiết bị có ID là: " + ts.MaTS;
                 nkhd.NgayHoatDong = DateTime.Now;
                 db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
                 db.SubmitChanges();
@@ -449,7 +471,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 NhatKyHoatDong nkhd = new NhatKyHoatDong();
                 nkhd.TenDangNhap = kh_insert.ChucDanh;
                 nkhd.HoatDong = "Xóa";
-                nkhd.ChiTietHoatDong = "Xóa nhóm tài sản có ID là: " + nts.MaNhomTS;
+                nkhd.ChiTietHoatDong = "Xóa nhóm thiết bị có ID là: " + nts.MaNhomTS;
                 nkhd.NgayHoatDong = DateTime.Now;
                 db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
                 db.SubmitChanges();
@@ -485,7 +507,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 NhatKyHoatDong nkhd = new NhatKyHoatDong();
                 nkhd.TenDangNhap = kh_insert.ChucDanh;
                 nkhd.HoatDong = "Xóa";
-                nkhd.ChiTietHoatDong = "Xóa loại tài sản có ID là: " + lts.MaLoaiTS;
+                nkhd.ChiTietHoatDong = "Xóa loại thiết bị có ID là: " + lts.MaLoaiTS;
                 nkhd.NgayHoatDong = DateTime.Now;
                 db.NhatKyHoatDongs.InsertOnSubmit(nkhd);
                 db.SubmitChanges();
@@ -589,6 +611,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                         pb.MaND = kh_insert.MaND;
                         pb.NgayTao = DateTime.Now;
                         pb.NgayCapNhat = DateTime.Now;
+                        pb.MaNhomTS = ts.MaNhomTS;
                         if (string.IsNullOrEmpty(pb.GhiChu))
                         {
                             pb.GhiChu = "Không có";

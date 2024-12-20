@@ -48,13 +48,17 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                 var kiemeke = (from ctpkk in db.ChiTietPhieuKiemKes
                                where ctpkk.MaNhomTS == ts.MaNhomTS
                                select ctpkk).Count();
-      
+                var thanhly = (from tl in db.ThanhLys
+                               where tl.MaNhomTS == ts.MaNhomTS
+                               select tl).Count();
+
                 taisanObject.Add(new Dictionary<string, object>
                 {
                     { "MaNhomTS", ts.MaNhomTS },
                     { "TenNhomTS", ts.TenNhomTS },
                     { "SoLanDuocPhanBo", phanbo },
-                    { "SoLanDuocKiemKe", kiemeke }
+                    { "SoLanDuocKiemKe", kiemeke },
+                    { "SoLanDuocThanhLy", thanhly }
                 });
             }
 

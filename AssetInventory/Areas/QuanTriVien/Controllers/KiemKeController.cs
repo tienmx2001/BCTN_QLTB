@@ -294,6 +294,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                         inset_ctpkk.GhiChu = "Không có";
                         inset_ctpkk.NgayCapNhat = DateTime.Now;
                         inset_ctpkk.NgayTao = DateTime.Now;
+                        inset_ctpkk.MaNhomTS = select_PhanBo_By_MaPhong.Skip(i).FirstOrDefault().MaNhomTS;
                         db.ChiTietPhieuKiemKes.InsertOnSubmit(inset_ctpkk);
                         db.SubmitChanges();
                     }
@@ -319,7 +320,7 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
         public JsonResult Select_ChiTietPhieuKiemKe(int MaPhieu)
         {
             var get_data = from s in db.ChiTietPhieuKiemKes.OrderByDescending(a => a.TenNhomTS)
-                           where s.MaPhieu == MaPhieu
+                           where s.MaPhieu == MaPhieu && s.SoLuong >=1
                            select new
                            {
                                s.MaCTPKK,

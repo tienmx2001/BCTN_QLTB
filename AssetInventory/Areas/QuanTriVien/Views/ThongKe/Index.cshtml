@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Thống kê";
     Layout = "~/Areas/QuanTriVien/Views/Shared/_LayoutQuanTriVien.cshtml";
 }
 
@@ -50,6 +50,7 @@
                             <th>Tên thiết bị</th>
                             <th>Số lần được Phân bố</th>
                             <th>Số lần được Kiểm kê</th>
+                            <th>Số lần được Thanh lý</th>
                         </tr>
                     </thead>
                     <tbody style="text-align:center">
@@ -105,21 +106,24 @@ function LoadData(Name_DataTable) {
             var labels = [];
             var phanBoCounts = [];
             var kiemKeCounts = [];
+            var thanhlyCounts = [];
 
             $.each(data.data, function (i, item) {
                 Name_DataTable.row.add([
                     '<td><a class="text-body fw-bold">#' + item.MaNhomTS + '</a></td>',
                     '<h4><span class="badge bg-success text-light">' + item.TenNhomTS + '</span></h4>',
                     item.SoLanDuocPhanBo,
-                    item.SoLanDuocKiemKe
+                    item.SoLanDuocKiemKe,
+                    item.SoLanDuocThanhLy,
                 ]).draw(false);
 
                 labels.push(item.TenNhomTS);
                 phanBoCounts.push(item.SoLanDuocPhanBo);
                 kiemKeCounts.push(item.SoLanDuocKiemKe);
+                thanhlyCounts.push(item.SoLanDuocThanhLy)
             });
 
-            renderChart(labels, phanBoCounts, kiemKeCounts);
+            renderChart(labels, phanBoCounts, kiemKeCounts, thanhlyCounts);
 
         },
         error: function (ex) {
@@ -130,7 +134,7 @@ function LoadData(Name_DataTable) {
 }
 
 
-    function renderChart(labels, phanBoCounts, kiemKeCounts) {
+    function renderChart(labels, phanBoCounts, kiemKeCounts, thanhlyCounts) {
         var ctx = document.getElementById('chartThongKe').getContext('2d');
 
         new Chart(ctx, {
@@ -150,6 +154,13 @@ function LoadData(Name_DataTable) {
                         data: kiemKeCounts,
                         backgroundColor: 'rgba(255, 99, 132, 0.6)',
                         borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Số lần được Thanh lý',
+                        data: thanhlyCounts,
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)', // Màu xanh lá nhạt
+                        borderColor: 'rgba(75, 192, 192, 1)',       // Màu xanh lá đậm
                         borderWidth: 1
                     }
                 ]
@@ -172,7 +183,7 @@ function LoadData(Name_DataTable) {
                     x: {
                         title: {
                             display: true,
-                            text: 'Nhóm Tài sản'
+                            text: 'Nhóm Thiết Bị'
                         }
                     },
                     y: {

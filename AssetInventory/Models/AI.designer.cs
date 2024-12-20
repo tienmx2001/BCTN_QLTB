@@ -478,6 +478,7 @@ namespace AssetInventory.Models
 		private int _MaNhomTS;
 		
 		private string _TenTS;
+		private string _AnhTS;
 		
 		private System.Nullable<int> _GiaTri;
 		
@@ -502,8 +503,11 @@ namespace AssetInventory.Models
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
     partial void OnMaTSChanging(int value);
-    partial void OnMaTSChanged();
-    partial void OnMaNhomTSChanging(int value);
+    partial void OnMaTSChanged(); 
+    partial void OnAnhTaiSanChanging(string value);
+        partial void OnAnhTaiSanChanged();
+
+        partial void OnMaNhomTSChanging(int value);
     partial void OnMaNhomTSChanged();
     partial void OnTenTSChanging(string value);
     partial void OnTenTSChanged();
@@ -591,8 +595,26 @@ namespace AssetInventory.Models
 				}
 			}
 		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GiaTri", DbType="Int")]
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_AnhTS", DbType = "NVarChar(200)")]
+        public string AnhTS
+        {
+            get
+            {
+                return this._AnhTS;
+            }
+            set
+            {
+                if ((this._AnhTS != value))
+                {
+                    this.OnAnhTaiSanChanging(value);
+                    this.SendPropertyChanging();
+                    this._AnhTS = value;
+                    this.SendPropertyChanged("AnhTaiSan");
+                    this.OnAnhTaiSanChanged();
+                }
+            }
+        }
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GiaTri", DbType="Int")]
 		public System.Nullable<int> GiaTri
 		{
 			get
@@ -3271,7 +3293,9 @@ namespace AssetInventory.Models
             private int _MaPB;
             private int _SoLuongThanhLy;
             private string _GhiChu;
-            private System.DateTime _NgayCapNhat;
+			private int _MaTS;
+			private int _MaNhomTS;
+			private System.DateTime _NgayCapNhat;
 
             private System.Nullable<System.DateTime> _NgayTao;
 
@@ -3368,6 +3392,42 @@ namespace AssetInventory.Models
                 }
             }
 
+            [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_MaTS", DbType = "Int NOT NULL")]
+            public int MaTS
+            {
+                get
+                {
+                    return this._MaTS;
+                }
+                set
+                {
+                    if ((this._MaTS != value))
+                    {
+                        this.SendPropertyChanging();
+                        this._MaTS = value;
+                        this.SendPropertyChanged("MaTS");
+
+                    }
+                }
+            }
+            [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_MaNhomTS", DbType = "Int NOT NULL")]
+            public int MaNhomTS
+            {
+                get
+                {
+                    return this._MaNhomTS;
+                }
+                set
+                {
+                    if ((this._MaNhomTS != value))
+                    {
+                        this.SendPropertyChanging();
+                        this._MaNhomTS = value;
+                        this.SendPropertyChanged("MaNhomTS");
+                    }
+                }
+            }
+
             protected virtual void OnPropertyChanging(string propertyName)
             {
                 PropertyChanging?.Invoke(this, emptyChangingEventArgs);
@@ -3376,6 +3436,25 @@ namespace AssetInventory.Models
             protected virtual void OnPropertyChanged(string propertyName)
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+
+          
+
+            protected virtual void SendPropertyChanging()
+            {
+                if ((this.PropertyChanging != null))
+                {
+                    this.PropertyChanging(this, emptyChangingEventArgs);
+                }
+            }
+
+            protected virtual void SendPropertyChanged(String propertyName)
+            {
+                if ((this.PropertyChanged != null))
+                {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                }
             }
         }
     }

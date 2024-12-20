@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Invoice_2";
+    ViewBag.Title = "Phiếu kiểm kê";
     Layout = null;
 }
 
@@ -1355,13 +1355,13 @@
             </tr>
             <tr height='20' style='mso-height-source:userset;height:15pt'>
                 <td height='20' class='x82' style='height:15pt;'></td>
-                <td colspan='2' class='x86' style='mso-ignore:colspan;'><font class="font2" style="text-decoration: none;">Bộ phận:&nbsp;</font><font class="font3" style="text-decoration: none;">Phòng cơ sở vật chất</font></td>
+                <td colspan='2' class='x86' style='mso-ignore:colspan;'><font class="font2" style="text-decoration: none;">Bộ phận:&nbsp;</font><font class="font3" style="text-decoration: none;">Phòng..............</font></td>
                 <td colspan='6' class='x65' style='mso-ignore:colspan;'></td>
                 <td colspan='4' class='x65' style='mso-ignore:colspan;'></td>
             </tr>
             <tr height='20' style='mso-height-source:userset;height:15pt'>
                 <td height='20' class='x75' style='height:15pt;'></td>
-                <td colspan='2' class='x85' style='mso-ignore:colspan;'><font class="font2" style="text-decoration: none;">Mã đơn vị SDNS</font><font class="font3" style="text-decoration: none;">: …………….</font></td>
+                <td colspan='2' class='x85' style='mso-ignore:colspan;'><font class="font2" style="text-decoration: none;">Mã đơn vị</font><font class="font3" style="text-decoration: none;">: …………….</font></td>
                 <td colspan='6' class='x65' style='mso-ignore:colspan;'></td>
                 <td colspan='4' class='x65' style='mso-ignore:colspan;'></td>
             </tr>
@@ -1370,7 +1370,7 @@
                 <td colspan='13' class='x65' style='mso-ignore:colspan;'></td>
             </tr>
             <tr height='21' style='mso-height-source:userset;height:15.75pt'>
-                <td colspan='14' height='21' class='x109' style='height:16pt;'>BIÊN BẢN KIỂM KÊ TÀI SẢN</td>
+                <td colspan='14' height='21' class='x109' style='height:16pt;'>BIÊN BẢN KIỂM KÊ THIẾT BỊ</td>
             </tr>
             <tr height='20' style='mso-height-source:userset;height:15pt'>
                 <td height='20' class='x75' style='height:15pt;'></td>
@@ -1436,13 +1436,13 @@ function Show_ChiTietPhieuKiem(MaPhieu) {
 
         $('#invoice').append(
             "<tr height='20' style='mso-height-source:userset;height:15pt'>" +
-            "<td rowspan='2' height='79' class='x120' style='border-bottom:1px solid windowtext;height:59.25pt;'>Số TT</td>" +
-            "<td rowspan='2' height='79' class='x122' style='border-bottom:1px solid windowtext;height:59.25pt;'>Tên công cụ dụng cụ</td>" +
-            "<td rowspan='2' height='79' class='x120' style='border-bottom:1px solid windowtext;height:59.25pt;'>Mã số CCDC</td>" +
+            "<td rowspan='2' height='79' class='x120' style='border-bottom:1px solid windowtext;height:59.25pt;'>STT</td>" +
+            "<td rowspan='2' height='79' class='x122' style='border-bottom:1px solid windowtext;height:59.25pt;'>Tên thiết bị</td>" +
+            "<td rowspan='2' height='79' class='x120' style='border-bottom:1px solid windowtext;height:59.25pt;'>Mã thiết bị</td>" +
             "<td rowspan='2' height='79' class='x120' style='border-bottom:1px solid windowtext;height:59.25pt;'>Năm sử dụng</td>" +
             "<td colspan='2' class='x124' style='border-bottom:1px solid windowtext;'>Theo sổ kế toán</td>" +
             "<td colspan='2' class='x124' style='border-bottom:1px solid windowtext;'>Theo sổ kiểm kê</td>" +
-            "<td colspan='3' class='x124' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>Phẩm chất</td>" +
+            "<td colspan='3' class='x124' style='border-right:1px solid windowtext;border-bottom:1px solid windowtext;'>Còn tốt</td>" +
             "<td rowspan='2' height='79' class='x127' style='border-bottom:1px solid windowtext;height:59.25pt;'>Ghi chú</td>" +
             "</tr>" +
             "<tr height='60' style='mso-height-source:userset;height:45pt'>" +
@@ -1451,8 +1451,8 @@ function Show_ChiTietPhieuKiem(MaPhieu) {
             "<td class='x98'>Đơn vị tính</td>" +
             "<td class='x98'>Số lượng</td>" +
             "<td class='x98'>Còn tốt</td>" +
-            "<td class='x98'>Kém phẩm chất</td>" +
-            "<td class='x98'>Mất phẩm chất</td>" +
+            "<td class='x98'>Không còn tốt</td>" +
+            "<td class='x98'>Không thể sử dụng</td>" +
             "</tr>"
         );
 

@@ -38,7 +38,9 @@ namespace AssetInventory.Areas.QuanTriVien.Controllers
                         SoLuongThanhLy = phanBo.SoLuongHong,
                         GhiChu = "Thanh lý thiết bị: " + phanBo.MaTS,
                         NgayCapNhat = DateTime.Now,
-                        NgayTao = DateTime.Now
+                        NgayTao = DateTime.Now,
+                        MaTS=phanBo.MaTS,
+                        MaNhomTS=phanBo.MaNhomTS,
                     };
 
                     db.ThanhLys.InsertOnSubmit(thanhLy);
